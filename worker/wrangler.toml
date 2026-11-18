@@ -10,9 +10,16 @@ INFO_EMAIL = "info@sonderplace.com"
 MAIL_FROM = "Origins <noreply@sonderplace.com>"
 ALLOWED_ORIGIN = "https://origins.sonderplace.com"
 
+# ...
 [observability.logs]
-enabled = false
+enabled = true
+head_sampling_rate = 1
 invocation_logs = true
+persist = true
 
 [observability.traces]
 enabled = false
+head_sampling_rate = 1
+persist = true
+# ...
+

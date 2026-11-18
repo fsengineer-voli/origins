@@ -13,7 +13,7 @@
  */
 
 import { ALDER_GTBANK_NAIRA_ACCOUNT, ALDER_USD_ACCOUNT, ALDER_ZELLE_EMAIL } from "./static-data";
-import { originsRegistrationEmail, type DonationBankAccount } from "./email-templates";
+import { originsRegistrationEmail, adminEmail, type DonationBankAccount } from "./email-templates";
 import {
   BUNDLE_DISCOUNT,
   EMPLOYMENT_LEVEL_OPTIONS,
@@ -288,24 +288,25 @@ export default {
       const token = await getSheetsAccessToken(env.GOOGLE_CLIENT_EMAIL, env.GOOGLE_PRIVATE_KEY);
       await ensureOriginsTabExists(token, cohort.sheetTab, ORIGINS_SHEET_COLUMNS);
       await appendRow(token, `${quoteTab(cohort.sheetTab)}!A:R`, [
-        submittedAt,
-        reference,
+        '',
         `${r.firstName} ${r.lastName}`,
         r.email,
         r.phoneCountryCode ? `${r.phoneCountryCode} ${r.phone}` : r.phone,
         r.gender,
         r.occupation,
         r.employmentLevel,
+        r.city + ", " + r.country,
         r.company,
         r.role,
-        r.city,
-        r.country,
+        r.source,
         ORIGINS_ATTENDANCE_LABELS[r.attendanceType],
         ticketLabel,
+        '',
         r.currency,
         totalLabel,
-        r.source,
         "Awaiting Bank Transfer",
+        reference,
+        submittedAt,
       ]);
     } catch (err) {
       console.error("Error saving Origins registration to Google Sheet:", err);
@@ -314,11 +315,6 @@ export default {
     const bankDetails = buildBankDetails(r.currency, reference);
     const dateLabel = cohort.dateRangeLabel;
 
-    // 2. Emails are sent after the response, so a slow or failed send never
-    //    turns a saved registration into an error.
-    ctx.waitUntil(
-      (async () => {
-        try {
           const attendeeEmail = originsRegistrationEmail({
             firstName: r.firstName,
             lastName: r.lastName,
@@ -332,6 +328,21 @@ export default {
             details,
           });
 
+          const notifyAdmin = adminEmail({
+            firstName: r.firstName,
+            lastName: r.lastName,
+            attendanceTypeLabel: ORIGINS_ATTENDANCE_LABELS[r.attendanceType],
+            basketLines: [{'amountLabel': r.attendanceType, 'label': 'Attendance Type'}],
+            totalLabel,
+            currency: r.currency,
+            reference,
+          });
+
+    // 2. Emails are sent after the response, so a slow or failed send never
+    //    turns a saved registration into an error.
+    ctx.waitUntil(
+      (async () => {
+        try {
           await Promise.all([
             sendNotificationEmail(env, {
               subject: attendeeEmail.subject,
@@ -340,8 +351,8 @@ export default {
               replyTo: env.INFO_EMAIL,
             }),
             sendNotificationEmail(env, {
-              subject: `New Origins (${dateLabel}) registration — ${r.firstName} ${r.lastName} (${totalLabel})`,
-              html: attendeeEmail.html,
+              subject: `New Origins registration — ${r.firstName} ${r.lastName} (${totalLabel})`,
+              html: notifyAdmin.html,
               to: env.INFO_EMAIL,
             }),
           ]);

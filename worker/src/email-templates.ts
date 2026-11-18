@@ -30,6 +30,22 @@ export interface OriginsRegistrationEmailData {
   /** Form fields the registrant submitted, shown in the email. */
   details?: { label: string; value: string }[];
 }
+export interface AdminNotificationEmailData {
+  firstName: string;
+  lastName: string;
+  attendanceTypeLabel: string;
+  basketLines: { label: string; amountLabel: string }[];
+  totalLabel: string;
+  currency: string;
+  reference: string;
+}
+
+// Brand accent (matches the checkout page): red #C8161D, text #A31117, tint #FBEDEC.
+const BRAND_RED = "#C8161D";
+const BRAND_RED_INK = "#A31117";
+const BRAND_RED_TINT = "#FBEDEC";
+const BRAND_RED_BORDER = "#F3B7B5";
+const BRAND_MUTED = "#5E5A56";
 
 const ORIGINS_LOGO_URL = "https://sonderplace.com/images/origins-logo.jpeg";
 const DONATION_FONT_BASE_URL = "https://sonderplace.com/fonts";
@@ -80,7 +96,9 @@ function renderBankDetailsSection(bankDetails?: DonationBankDetails) {
     .map(
       (account) => `
         <div style="margin:0 0 16px;padding:16px;border:1px solid #e5e7eb;border-radius:6px;">
-          <p style="margin:0 0 10px;font-family:${DONATION_FONT_STACK};font-size:13px;font-weight:700;color:#111827;">${account.label}</p>
+          <p style="margin:0 0 10px;font-family:${DONATION_FONT_STACK};font-size:13px;font-weight:700;color:#111827;">${
+            account.label
+          }</p>
           <table style="width:100%;border-collapse:collapse;font-family:${DONATION_FONT_STACK};font-size:13px;">
             ${accountRow("Account Name", account.accountName)}
             ${accountRow("Account Number", account.accountNumber)}
@@ -96,14 +114,74 @@ function renderBankDetailsSection(bankDetails?: DonationBankDetails) {
 
   return `
         ${accountsHtml}
-        <div style="margin:0 0 16px;padding:14px 16px;background:#fffbeb;border:1px solid #fde68a;border-radius:6px;">
-          <p style="margin:0 0 4px;font-family:${DONATION_FONT_STACK};font-size:12.5px;font-weight:700;color:#78350f;">Payment reference</p>
-          <p style="margin:0 0 8px;font-family:${DONATION_FONT_STACK};font-size:12.5px;color:#92400e;">Include this as your payment reference or narration:</p>
-          <p style="margin:0;padding:8px 10px;background:#ffffff;border-radius:4px;font-family:'SFMono-Regular',Menlo,Consolas,monospace;font-size:13px;font-weight:700;color:#78350f;">${bankDetails.paymentReference}</p>
+        <div style="margin:0 0 16px;padding:14px 16px;background:${BRAND_RED_TINT};border:1px solid ${BRAND_RED_BORDER};border-radius:6px;">
+          <p style="margin:0 0 4px;font-family:${DONATION_FONT_STACK};font-size:12.5px;font-weight:700;color:${BRAND_RED_INK};">Payment reference</p>
+          <p style="margin:0 0 8px;font-family:${DONATION_FONT_STACK};font-size:12.5px;color:${BRAND_MUTED};">Include this as your payment reference or narration:</p>
+          <p style="margin:0;padding:8px 10px;background:#ffffff;border-radius:4px;font-family:'SFMono-Regular',Menlo,Consolas,monospace;font-size:13px;font-weight:700;color:${BRAND_RED_INK};">${bankDetails.paymentReference}</p>
+           <p style="margin:0;font-family:${DONATION_FONT_STACK};font-size:12.5px;font-weight:700;color:${BRAND_RED_INK};">
+            Please send proof of payment to <a href="mailto:${OPERATIONS_EMAIL}" style="color:${BRAND_RED_INK};text-decoration:underline;">${OPERATIONS_EMAIL}</a>.
+          </p>
         </div>
         `;
 }
 
+export function adminEmail(data: AdminNotificationEmailData) {
+  const {
+    firstName,
+    lastName,
+    attendanceTypeLabel,
+    totalLabel,
+    currency,
+    reference,
+  } = data;
+
+  return {
+    subject: `Complete your Origins registration — payment instructions inside`,
+    html: `
+  ${donationFontFaceStyle}
+  <div style="margin:0;padding:32px 16px;background:#f9fafb;font-family:${DONATION_FONT_STACK};">
+    <div style="max-width:600px;margin:0 auto;background:#ffffff;border:1px solid #e5e7eb;border-radius:6px;overflow:hidden;">
+      <div style="padding:30px 40px 24px;border-bottom:1px solid #e5e7eb;text-align:center;">
+        <img src="${ORIGINS_LOGO_URL}" alt="Origins: Business Creativity Workshop" width="180" height="66" style="height:66px;width:180px;display:inline-block;border:0;" />
+        <p style="margin:10px 0 0;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#9ca3af;font-family:${DONATION_FONT_STACK};font-weight:600;">
+          Origins: Business Creativity Workshop by Leke Alder
+        </p>
+      </div>
+
+      <div style="padding:32px 40px 30px;">
+        <h1 style="text-align:center;font-family:${DONATION_FONT_STACK};font-weight:700;font-size:22px;line-height:1.35;margin:0 0 5px;color:#111827;">
+          New registration: ${firstName} ${lastName}
+        </h1>
+
+        <div style="text-align:center;padding:22px 0 26px;">
+          <p style="font-family:${DONATION_FONT_STACK};font-size:40px;font-weight:700;color:#111827;margin:0;">
+            ${totalLabel}
+          </p>
+          <p style="font-family:${DONATION_FONT_STACK};font-size:12.5px;color:#9ca3af;margin-top:4px;">
+            ${currency} &middot; ${attendanceTypeLabel}
+          </p>
+        </div>
+
+        <table style="width:100%;border-collapse:collapse;border:1px solid #e5e7eb;border-radius:6px;font-family:${DONATION_FONT_STACK};font-size:13.5px;margin-bottom:16px;">
+          <tr>
+            <td style="padding:11px 16px;border-bottom:1px solid #e5e7eb;color:#4b5563;font-weight:600;">Name</td>
+            <td style="padding:11px 16px;border-bottom:1px solid #e5e7eb;text-align:right;">${firstName} ${lastName}</td>
+          </tr>
+          <tr>
+            <td style="padding:11px 16px;color:#4b5563;font-weight:600;">Reference No.</td>
+            <td style="padding:11px 16px;text-align:right;font-family:'SFMono-Regular',Menlo,Consolas,monospace;">${reference}</td>
+          </tr>
+          <tr>
+            <td style="padding:11px 16px;color:#4b5563;font-weight:600;">Attendace Type</td>
+            <td style="padding:11px 16px;text-align:right;font-family:'SFMono-Regular',Menlo,Consolas,monospace;">${attendanceTypeLabel}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  `,
+  };
+}
 export function originsRegistrationEmail(data: OriginsRegistrationEmailData) {
   const {
     firstName,
@@ -120,7 +198,11 @@ export function originsRegistrationEmail(data: OriginsRegistrationEmailData) {
 
   // Form fields only. Values are escaped because they come from the form.
   const esc = (s: string) =>
-    s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    s
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
   const detailsHtml = details.length
     ? `<p style="font-family:${DONATION_FONT_STACK};font-size:13px;font-weight:700;color:#111827;margin:0 0 8px;">Your details</p>
         <table style="width:100%;border-collapse:collapse;border:1px solid #e5e7eb;border-radius:4px;font-family:${DONATION_FONT_STACK};margin-bottom:16px;">
@@ -172,7 +254,7 @@ export function originsRegistrationEmail(data: OriginsRegistrationEmailData) {
           </p>
         </div>
 
-        <table style="width:100%;border-collapse:collapse;border:1px solid #e5e7eb;border-radius:4px;font-family:${DONATION_FONT_STACK};font-size:13.5px;margin-bottom:16px;">
+        <table style="width:100%;border-collapse:collapse;border:1px solid #e5e7eb;border-radius:6px;font-family:${DONATION_FONT_STACK};font-size:13.5px;margin-bottom:16px;">
           <tr>
             <td style="padding:11px 16px;border-bottom:1px solid #e5e7eb;color:#4b5563;font-weight:600;">Attendee</td>
             <td style="padding:11px 16px;border-bottom:1px solid #e5e7eb;text-align:right;">${firstName} ${lastName}</td>
@@ -181,6 +263,9 @@ export function originsRegistrationEmail(data: OriginsRegistrationEmailData) {
             <td style="padding:11px 16px;color:#4b5563;font-weight:600;">Reference no.</td>
             <td style="padding:11px 16px;text-align:right;font-family:'SFMono-Regular',Menlo,Consolas,monospace;">${reference}</td>
           </tr>
+          <tr>
+            <td style="padding:11px 16px;border-bottom:1px solid #e5e7eb;color:#4b5563;font-weight:600;">Payment Details</td>
+          </tr>
                   ${basketRowsHtml}
           <tr>
             <td style="padding:11px 16px;color:#111827;font-weight:700;">Total</td>
@@ -188,15 +273,8 @@ export function originsRegistrationEmail(data: OriginsRegistrationEmailData) {
           </tr>
         </table>
 
-        ${detailsHtml}
-
         ${renderBankDetailsSection(bankDetails)}
 
-        <div style="margin:0 0 16px;padding:14px 16px;background:#fffbeb;border:1px solid #fde68a;border-radius:6px;">
-          <p style="margin:0;font-family:${DONATION_FONT_STACK};font-size:12.5px;font-weight:700;color:#78350f;">
-            Please send proof of payment to <a href="mailto:${OPERATIONS_EMAIL}" style="color:#78350f;text-decoration:underline;">${OPERATIONS_EMAIL}</a>.
-          </p>
-        </div>
 
         ${
           currency === "USD"
@@ -209,7 +287,7 @@ export function originsRegistrationEmail(data: OriginsRegistrationEmailData) {
 
       <div style="padding:22px 40px 30px;border-top:1px solid #e5e7eb;font-family:${DONATION_FONT_STACK};font-size:12px;line-height:1.7;color:#9ca3af;text-align:center;">
         Questions about this registration? Reply to this email or write to<br />
-        <a href="mailto:${DONATION_SUPPORT_EMAIL}" style="color:#895319;text-decoration:none;font-weight:600;">${DONATION_SUPPORT_EMAIL}</a>
+        <a href="mailto:${DONATION_SUPPORT_EMAIL}" style="color:${BRAND_RED};text-decoration:none;font-weight:600;">${DONATION_SUPPORT_EMAIL}</a>
       </div>
     </div>
   </div>
