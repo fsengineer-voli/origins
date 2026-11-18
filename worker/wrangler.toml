@@ -1,4 +1,4 @@
-name = "origins-registration"
+name = "origins"
 main = "src/index.ts"
 compatibility_date = "2026-11-01"
 
@@ -6,6 +6,11 @@ compatibility_date = "2026-11-01"
 #   wrangler secret put GOOGLE_CLIENT_EMAIL
 #   wrangler secret put GOOGLE_PRIVATE_KEY
 #   wrangler secret put RESEND_API_KEY
+
+
+[assets]
+directory = "./public"
+
 
 [vars]
 INFO_EMAIL = "info@sonderplace.com"
