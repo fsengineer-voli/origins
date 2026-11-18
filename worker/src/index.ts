@@ -13,7 +13,7 @@
  */
 
 import { ALDER_GTBANK_NAIRA_ACCOUNT, ALDER_USD_ACCOUNT, ALDER_ZELLE_EMAIL } from "./static-data";
-import { originsRegistrationEmail, type DonationBankAccount } from "../email-templates";
+import { originsRegistrationEmail, type DonationBankAccount } from "./email-templates";
 import {
   BUNDLE_DISCOUNT,
   EMPLOYMENT_LEVEL_OPTIONS,
@@ -26,8 +26,8 @@ import {
   SOURCE_OPTIONS,
   type OriginsAttendanceType,
   type OriginsCohortId,
-} from "../origins";
-import { sendNotificationEmail } from "../mail";
+} from "./origins";
+import { sendNotificationEmail } from "./mail";
 import { getSheetsAccessToken, ensureOriginsTabExists, appendRow, quoteTab } from "./sheets";
 
 export interface Env {
