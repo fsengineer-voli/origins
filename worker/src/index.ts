@@ -31,6 +31,7 @@ import { sendNotificationEmail } from "./mail";
 import { getSheetsAccessToken, ensureOriginsTabExists, appendRow, quoteTab } from "./sheets";
 
 export interface Env {
+  ASSETS: Fetcher; // auto-provided when [assets] is configured — serves static files
   GOOGLE_CLIENT_EMAIL: string;
   GOOGLE_PRIVATE_KEY: string;
   RESEND_API_KEY: string;
@@ -211,10 +212,15 @@ function buildBankDetails(currency: Currency, paymentReference: string) {
 
 export default {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+    // Static assets serve GET/HEAD (and OPTIONS preflight). Only the form POST
+    // is handled by this Worker; everything else falls through to assets.
+    if (request.method !== "POST" && request.method !== "OPTIONS") {
+      return env.ASSETS.fetch(request);
+    }
+
     const origin = env.ALLOWED_ORIGIN ?? "*";
 
     if (request.method === "OPTIONS") return json({}, 204, origin);
-    if (request.method !== "POST") return json({ success: false, message: "Method not allowed." }, 405, origin);
 
     let body: any;
     try {
