@@ -113,14 +113,13 @@ function renderBankDetailsSection(bankDetails?: DonationBankDetails) {
     .join("");
 
   return `
+          <p style="margin:0 0 10px;font-family:${DONATION_FONT_STACK};font-size:13px;font-weight:700;color:#111827;">Bank Details</p>
         ${accountsHtml}
         <div style="margin:0 0 16px;padding:14px 16px;background:${BRAND_RED_TINT};border:1px solid ${BRAND_RED_BORDER};border-radius:6px;">
           <p style="margin:0 0 4px;font-family:${DONATION_FONT_STACK};font-size:12.5px;font-weight:700;color:${BRAND_RED_INK};">Payment reference</p>
           <p style="margin:0 0 8px;font-family:${DONATION_FONT_STACK};font-size:12.5px;color:${BRAND_MUTED};">Include this as your payment reference or narration:</p>
           <p style="margin:0;padding:8px 10px;background:#ffffff;border-radius:4px;font-family:'SFMono-Regular',Menlo,Consolas,monospace;font-size:13px;font-weight:700;color:${BRAND_RED_INK};">${bankDetails.paymentReference}</p>
-           <p style="margin:0;font-family:${DONATION_FONT_STACK};font-size:12.5px;font-weight:700;color:${BRAND_RED_INK};">
-            Please send proof of payment to <a href="mailto:${OPERATIONS_EMAIL}" style="color:${BRAND_RED_INK};text-decoration:underline;">${OPERATIONS_EMAIL}</a>.
-          </p>
+          <p style="margin:8px 0 8px;font-family:${DONATION_FONT_STACK};font-size:12.5px;color:${BRAND_MUTED};">Please send proof of payment to <a href="mailto:${OPERATIONS_EMAIL}" style="color:${BRAND_RED_INK};text-decoration:underline;">${OPERATIONS_EMAIL}</a>.</p>
         </div>
         `;
 }
