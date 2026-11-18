@@ -1,0 +1,13 @@
+name = "origins-registration"
+main = "src/index.ts"
+compatibility_date = "2026-11-01"
+
+# Set secrets with:
+#   wrangler secret put GOOGLE_CLIENT_EMAIL
+#   wrangler secret put GOOGLE_PRIVATE_KEY
+#   wrangler secret put RESEND_API_KEY
+
+[vars]
+INFO_EMAIL = "info@sonderplace.com"
+MAIL_FROM = "Origins <noreply@sonderplace.com>"
+ALLOWED_ORIGIN = "https://sonderplace.com"
