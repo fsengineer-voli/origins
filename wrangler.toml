@@ -1,5 +1,5 @@
 name = "origins-registration"
-main = "src/index.ts"
+main = "index.ts"
 compatibility_date = "2026-11-01"
 
 # Set secrets with:
