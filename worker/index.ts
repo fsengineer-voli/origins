@@ -12,7 +12,7 @@
  *  GOOGLE_CLIENT_EMAIL, GOOGLE_PRIVATE_KEY, RESEND_API_KEY, INFO_EMAIL, MAIL_FROM
  */
 
-import { ALDER_GTBANK_NAIRA_ACCOUNT, ALDER_USD_ACCOUNT, ALDER_ZELLE_EMAIL } from "../static-data";
+import { ALDER_GTBANK_NAIRA_ACCOUNT, ALDER_USD_ACCOUNT, ALDER_ZELLE_EMAIL } from "./static-data";
 import { originsRegistrationEmail, type DonationBankAccount } from "../email-templates";
 import {
   BUNDLE_DISCOUNT,
@@ -28,7 +28,7 @@ import {
   type OriginsCohortId,
 } from "../origins";
 import { sendNotificationEmail } from "../mail";
-import { getSheetsAccessToken, ensureOriginsTabExists, appendRow, quoteTab } from "../sheets";
+import { getSheetsAccessToken, ensureOriginsTabExists, appendRow, quoteTab } from "./sheets";
 
 export interface Env {
   GOOGLE_CLIENT_EMAIL: string;
