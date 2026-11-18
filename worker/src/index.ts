@@ -214,15 +214,39 @@ export default {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     // Static assets serve GET/HEAD (and OPTIONS preflight). Only the form POST
     // is handled by this Worker; everything else falls through to assets.
-    if (request.method !== "POST" && request.method !== "OPTIONS") {
+    const url = new URL(request.url);
+    const origin = env.ALLOWED_ORIGIN ?? "*";
+
+    // Pass all non-/submit requests to static assets
+    if (url.pathname !== "/submit") {
       return env.ASSETS.fetch(request);
     }
 
-    const origin = env.ALLOWED_ORIGIN ?? "*";
+    if (request.method === "OPTIONS") {
+      return json({}, 204, origin);
+    }
 
-    if (request.method === "OPTIONS") return json({}, 204, origin);
+    if (request.method !== "POST") {
+      return json({ success: false, message: "Method not allowed." }, 405, origin);
+    }
 
     let body: any;
+    // try {
+    //   body = await request.json();
+    // } catch {
+    //   return json({ success: false, message: "Invalid payload." }, 400, origin);
+    // }
+
+
+    // if (request.method !== "POST" && request.method !== "OPTIONS") {
+    //   return env.ASSETS.fetch(request);
+    // }
+
+    // const origin = env.ALLOWED_ORIGIN ?? "*";
+
+    // if (request.method === "OPTIONS") return json({}, 204, origin);
+
+    // let body: any;
     try {
       body = await request.json();
     } catch {
