@@ -3,9 +3,16 @@ main = "src/index.ts"
 compatibility_date = "2026-11-01"
 
 [assets]
-directory = "./public"
+directory = "../public"
 
 [vars]
 INFO_EMAIL = "info@sonderplace.com"
 MAIL_FROM = "Origins <noreply@sonderplace.com>"
 ALLOWED_ORIGIN = "https://origins.sonderplace.com"
+
+[observability.logs]
+enabled = false
+invocation_logs = true
+
+[observability.traces]
+enabled = false
