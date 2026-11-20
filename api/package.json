@@ -1,5 +1,5 @@
 {
-  "name": "origins-registration-worker",
+  "name": "api-origins",
   "private": true,
   "scripts": {
     "dev": "wrangler dev",

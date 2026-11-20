@@ -1,0 +1,12 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "api-origins",
+  "main": "src/index.ts",
+  "vars": {
+    "INFO_EMAIL": "tech@volitioncap.com",
+    "MAIL_FROM": "Origins Workshop <noreply@sonderplace.com>",
+    "ALLOWED_ORIGIN": "https://origins.sonderplace.com"
+  },
+  "compatibility_date": "2026-11-19",
+  "observability": { "enabled": true }
+}
