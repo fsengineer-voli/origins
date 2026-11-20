@@ -1,0 +1,106 @@
+---
+interface Topic {
+  number: string;
+  title: string;
+  points: string[];
+}
+
+const topics: Topic[] = [
+  {
+    number: '01',
+    title: 'The Creative Mindset',
+    points: [
+      'Understanding creativity',
+      'How ideas are generated',
+      'Breaking mental barriers and building creative confidence',
+    ],
+  },
+  {
+    number: '02',
+    title: 'Business Ideation & the Laws of Ideas',
+    points: [
+      'Where business ideas come from',
+      'Evaluating and refining ideas',
+      'The laws that govern successful ideas',
+    ],
+  },
+  {
+    number: '03',
+    title: 'Defining Your Business',
+    points: [
+      'Clarifying your value proposition',
+      'Developing a compelling business concept',
+    ],
+  },
+  {
+    number: '04',
+    title: 'Business Plans & Pitching to Investors',
+    points: [
+      'Structuring a business plan and pitch',
+      'Communicating value with confidence',
+      'What investors look for',
+    ],
+  },
+  {
+    number: '05',
+    title: 'Identifying the Market',
+    points: [
+      'Understanding market opportunities',
+      'Finding the right niche',
+    ],
+  },
+  {
+    number: '06',
+    title: 'Profiling Your Customer',
+    points: [
+      'Customer needs and behaviour',
+      'Building customer personas',
+    ],
+  },
+  {
+    number: '07',
+    title: 'Building Your Brand',
+    points: [
+      'Naming your business',
+      'Branding fundamentals',
+      'Marketing communication that connects',
+    ],
+  },
+  {
+    number: '08',
+    title: 'Why Businesses Fail',
+    points: [
+      'Common causes of business failure',
+      'Lessons from real-world case studies',
+    ],
+  },
+];
+---
+
+<section class="dark bg-[var(--dark)] text-[var(--on-dark)] py-16 md:py-24" id="topics">
+  <div class="wrap">
+    <div class="sec-head mb-12 max-w-[760px] grid gap-4 content-start">
+      <p class="eyebrow text-[var(--red-on-dark)]">What we'll cover</p>
+      <h2 class="text-[clamp(1.9rem,4vw,3rem)] font-[var(--head)] font-semibold leading-[1.12] tracking-[-0.02em]">
+        Eight topics, from the first spark to a business that can stand on its own.
+      </h2>
+    </div>
+    <div class="topics-grid grid grid-cols-1 sm:grid-cols-2 min-[961px]:grid-cols-4 gap-[1px] bg-[var(--dark-line)] border border-[var(--dark-line)] rounded-lg overflow-hidden">
+      {topics.map((topic) => (
+        <div class="topic bg-[var(--dark)] hover:bg-[var(--dark-2)] p-6 sm:p-7 grid gap-3 content-start transition-colors duration-200">
+          <span class="n font-[var(--head)] font-bold text-[0.82rem] leading-none text-[var(--red-on-dark)] tracking-[0.06em]">
+            {topic.number}
+          </span>
+          <h3 class="font-[var(--head)] font-semibold text-[1.15rem] leading-[1.25] text-white">
+            {topic.title}
+          </h3>
+          <ul class="m-0 pl-4 text-[var(--dark-muted)] text-[0.93rem] grid gap-1 list-disc">
+            {topic.points.map((point) => (
+              <li>{point}</li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

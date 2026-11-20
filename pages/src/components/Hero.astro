@@ -1,0 +1,45 @@
+---
+interface Props {
+  eyebrow?: string;
+  title?: string;
+  highlightedText?: string;
+  tagline?: string;
+}
+
+const {
+  eyebrow = 'Origins · A Business Creativity Workshop by Leke Alder',
+  title = 'Turn your idea into a business people will',
+  highlightedText = 'invest in.',
+  tagline = 'A two-day, hands-on workshop with Leke Alder that turns your idea into a clear, compelling and investable business concept.',
+} = Astro.props;
+---
+
+<header class="hero relative overflow-hidden text-white bg-[var(--dark)] flex items-end">
+  <img class="poster absolute top-0 left-0 w-full h-[122%] object-cover object-[50%_18%]" src="img/hero-poster.jpg" alt="" aria-hidden="true" />
+  <video
+    id="hero-video"
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="auto"
+    poster="img/hero-poster.jpg"
+    aria-hidden="true"
+    class="absolute top-0 left-0 w-full h-[122%] object-cover object-[50%_18%]"
+  >
+    <source src="video/hero.mp4" type="video/mp4" />
+  </video>
+  <div class="wrap relative z-10 w-full pt-14 pb-10 sm:pt-24 sm:pb-20">
+    <p class="eyebrow text-white">{eyebrow}</p>
+    <h1 class="mt-3.5 text-[clamp(2.1rem,4.4vw,3.3rem)] font-bold max-w-[16ch] leading-[1.12] tracking-[-0.02em]">
+      {title} <span class="text-[var(--red-on-dark)]">{highlightedText}</span>
+    </h1>
+    <p class="tag text-[clamp(1.05rem,1.8vw,1.25rem)] max-w-[46ch] mt-5 text-[#E6E2DE] leading-relaxed">
+      {tagline}
+    </p>
+    <div class="hero-cta flex flex-wrap gap-3 mt-7 items-center">
+      <a class="btn btn-red" href="#tickets">Register now</a>
+      <a class="btn btn-ghost" href="#topics">What we'll cover</a>
+    </div>
+  </div>
+</header>

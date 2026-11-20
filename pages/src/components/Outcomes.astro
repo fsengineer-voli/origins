@@ -1,0 +1,56 @@
+---
+interface Outcome {
+  title: string;
+  description: string;
+}
+
+const outcomes: Outcome[] = [
+  {
+    title: 'A tested business idea',
+    description: 'Your idea run through the laws that govern successful ideas, with the weak points named out loud.',
+  },
+  {
+    title: 'A sharp value proposition',
+    description: 'One clear statement of what you do, for whom, and why they should care.',
+  },
+  {
+    title: 'A defined market and customer',
+    description: "The niche you'll win first and a customer persona grounded in real needs.",
+  },
+  {
+    title: 'A brand foundation',
+    description: 'Naming principles, brand fundamentals and the thinking behind the business, not just a logo.',
+  },
+  {
+    title: 'A pitch outline',
+    description: 'The structure of a business plan and pitch, and what investors actually look for.',
+  },
+  {
+    title: 'Direct feedback from Leke Alder',
+    description: 'Frank, practical critique of your idea during the hands-on exercises.',
+  },
+];
+---
+
+<section id="outcomes" class="py-16 md:py-24">
+  <div class="wrap">
+    <div class="sec-head mb-12 max-w-[760px] grid gap-4 content-start">
+      <p class="eyebrow">What you leave with</p>
+      <h2 class="text-[clamp(1.9rem,4vw,3rem)] font-[var(--head)] font-semibold leading-[1.12] tracking-[-0.02em]">
+        By the end of the workshop, you'll have:
+      </h2>
+    </div>
+    <div class="out-grid grid grid-cols-1 min-[861px]:grid-cols-3 gap-6">
+      {outcomes.map((outcome) => (
+        <div class="out grid gap-2.5 content-start pt-5 border-t-2 border-[var(--ink)]">
+          <h3 class="font-[var(--head)] font-semibold text-[1.08rem] leading-[1.25]">
+            {outcome.title}
+          </h3>
+          <p class="text-[var(--muted)] text-[0.96rem] leading-relaxed">
+            {outcome.description}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,37 @@
+---
+const credentials = [
+  'Founder, Alder Consulting',
+  '30+ years in brand strategy',
+  'Policy & business adviser',
+  'Author',
+];
+---
+
+<section class="dark bg-[var(--dark)] text-[var(--on-dark)] py-16 md:py-24" id="facilitator">
+  <div class="wrap t-grid grid grid-cols-1 min-[861px]:grid-cols-[0.8fr_1.2fr] gap-9 min-[861px]:gap-16 items-center">
+    <img
+      src="img/leke-portrait.jpg"
+      alt="Portrait of Leke Alder in a grey check suit, arms folded"
+      class="rounded-lg w-full max-w-[420px] aspect-[4/5] object-cover object-top mx-auto min-[861px]:mx-0"
+    />
+    <div>
+      <p class="eyebrow text-[var(--red-on-dark)]">The Facilitator</p>
+      <h2 class="text-[clamp(1.9rem,4vw,3rem)] font-[var(--head)] font-semibold leading-[1.12] tracking-[-0.02em] my-3.5 mb-6 text-white">
+        Leke Alder
+      </h2>
+      <p class="text-[var(--dark-muted)] max-w-[58ch] mb-4 leading-relaxed">
+        <strong class="text-[var(--on-dark)] font-semibold">Lawyer by training. Strategist by calling.</strong> Leke Alder is the Founder and Principal of Alder Consulting, the creative intelligence firm he has built over more than three decades.
+      </p>
+      <p class="text-[var(--dark-muted)] max-w-[58ch] mb-4 leading-relaxed">
+        He is credited with introducing branding as a discipline to Nigeria, and has advised on policy, politics and business at the highest levels at home and abroad. Origins distils that experience into a working method you can apply to your own idea.
+      </p>
+      <div class="creds flex flex-wrap gap-2.5 mt-7">
+        {credentials.map((cred) => (
+          <span class="text-[0.85rem] px-3.5 py-2 border border-[var(--dark-line)] rounded-full text-[var(--on-dark)]">
+            {cred}
+          </span>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
