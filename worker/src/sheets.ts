@@ -4,7 +4,7 @@
  * then calls the Sheets REST API directly.
  */
 
-export const EVENTS_SHEET_ID = "1mM9oMa96aVwNz8wS7aEREz1_EzUJqDMxuvDoSf0poT8";
+export const EVENTS_SHEET_ID = "1EotZprdJYumrxq7Oc57I7ndd7I03eFrpU_J6sOYAMyM";
 const SHEETS_BASE = `https://sheets.googleapis.com/v4/spreadsheets/${EVENTS_SHEET_ID}`;
 const TOKEN_URL = "https://oauth2.googleapis.com/token";
 const SCOPE = "https://www.googleapis.com/auth/spreadsheets";
