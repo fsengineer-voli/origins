@@ -1,0 +1,233 @@
+---
+import { COUNTRIES, PINNED_ISO, BY_ISO, flag } from '../data/countries';
+
+interface Props {
+  index: number;
+  label: string;
+  defaultAttendance?: 'inperson' | 'online';
+  hidden?: boolean;
+}
+
+const { index, label, defaultAttendance = 'inperson', hidden = false } = Astro.props;
+const n = index + 1;
+const p = `a${n}-`;
+---
+
+<fieldset
+  class="attendee-fs border border-[var(--line)] rounded-[10px] p-6 m-0 bg-[var(--surface)] min-w-0"
+  id={`attendee-fieldset-${index}`}
+  data-attendee={index}
+  hidden={hidden}
+>
+  <legend class="font-[var(--head)] font-semibold text-[1rem] px-2">{label}</legend>
+  <div class="fields grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div class="field full grid gap-[6px] text-[0.85rem] font-semibold min-w-0 col-span-full" role="radiogroup" aria-label="How will you attend?">
+      <span class="lbl block">How will you attend? <span class="req text-[var(--red)]" aria-hidden="true">*</span></span>
+      <div class="attend grid grid-cols-1 sm:grid-cols-2 gap-[10px] mt-0.5">
+        <label class="flex items-center gap-3 p-3.5 px-4 border border-[var(--line)] rounded-lg font-medium text-[0.95rem] cursor-pointer bg-[var(--paper)] transition-all">
+          <input type="radio" name={`${p}attend`} id={`${p}ip`} value="inperson" checked={defaultAttendance === 'inperson'} class="accent-[var(--red)] w-4 h-4 m-0" />
+          <span>In-person</span>
+        </label>
+        <label class="flex items-center gap-3 p-3.5 px-4 border border-[var(--line)] rounded-lg font-medium text-[0.95rem] cursor-pointer bg-[var(--paper)] transition-all">
+          <input type="radio" name={`${p}attend`} id={`${p}on`} value="online" checked={defaultAttendance === 'online'} class="accent-[var(--red)] w-4 h-4 m-0" />
+          <span>Online</span>
+        </label>
+      </div>
+    </div>
+
+    <label class="field grid gap-[6px] text-[0.85rem] font-semibold min-w-0">
+      <span class="lbl block">First name <span class="req text-[var(--red)]" aria-hidden="true">*</span></span>
+      <input
+        id={`${p}first`}
+        name="first"
+        type="text"
+        required
+        autocomplete={index === 0 ? "given-name" : "off"}
+        placeholder="Jane"
+        class="font-[var(--body)] font-normal text-[0.98rem] p-3 px-[14px] border border-[var(--line)] rounded-lg bg-[var(--paper)] text-[var(--ink)] w-full min-w-0"
+      />
+      <span class="field-err" role="alert" hidden></span>
+    </label>
+
+    <label class="field grid gap-[6px] text-[0.85rem] font-semibold min-w-0">
+      <span class="lbl block">Last name <span class="req text-[var(--red)]" aria-hidden="true">*</span></span>
+      <input
+        id={`${p}last`}
+        name="last"
+        type="text"
+        required
+        autocomplete={index === 0 ? "family-name" : "off"}
+        placeholder="Smith"
+        class="font-[var(--body)] font-normal text-[0.98rem] p-3 px-[14px] border border-[var(--line)] rounded-lg bg-[var(--paper)] text-[var(--ink)] w-full min-w-0"
+      />
+      <span class="field-err" role="alert" hidden></span>
+    </label>
+
+    <label class="field grid gap-[6px] text-[0.85rem] font-semibold min-w-0">
+      <span class="lbl block">Email <span class="req text-[var(--red)]" aria-hidden="true">*</span></span>
+      <input
+        id={`${p}email`}
+        name="email"
+        type="email"
+        required
+        autocomplete={index === 0 ? "email" : "off"}
+        placeholder="jane@example.com"
+        class="font-[var(--body)] font-normal text-[0.98rem] p-3 px-[14px] border border-[var(--line)] rounded-lg bg-[var(--paper)] text-[var(--ink)] w-full min-w-0"
+      />
+      <span class="field-err" role="alert" hidden></span>
+    </label>
+
+    <div class="field grid gap-[6px] text-[0.85rem] font-semibold min-w-0">
+      <span class="lbl block">Phone number <span class="req text-[var(--red)]" aria-hidden="true">*</span></span>
+      <div class="phone grid grid-cols-[auto_1fr] gap-2">
+        <div class="cc relative" data-cc>
+          <button
+            type="button"
+            class="cc-btn h-full flex items-center gap-2 font-medium text-[0.95rem] px-3 border border-[var(--line)] rounded-lg bg-[var(--paper)] text-[var(--ink)] cursor-pointer whitespace-nowrap"
+            id={`${p}cc`}
+            aria-haspopup="listbox"
+            aria-expanded="false"
+            aria-label={`Country code, Nigeria +234`}
+          >
+            <span class="fl text-[1.25rem] leading-none">{flag('NG')}</span>
+            <span class="code font-mono text-[0.92rem]">+234</span>
+          </button>
+          <div class="cc-pop absolute z-30 top-[calc(100%+6px)] left-0 w-[min(320px,80vw)] bg-[var(--surface)] border border-[var(--line)] rounded-[10px] shadow-xl p-2 font-normal" hidden>
+            <input
+              type="search"
+              id={`${p}cc-search`}
+              placeholder="Search country or code"
+              aria-label="Search countries"
+              autocomplete="off"
+              class="w-full p-2 px-3 border border-[var(--line)] rounded-md bg-[var(--paper)] text-[var(--ink)] mb-1.5"
+            />
+            <ul role="listbox" aria-label="Country codes" class="list-none m-0 p-0 max-h-[260px] overflow-y-auto"></ul>
+          </div>
+          <input type="hidden" name="cc" value="NG" />
+        </div>
+        <input
+          id={`${p}phone`}
+          name="phone"
+          type="tel"
+          required
+          aria-label="Phone number"
+          placeholder="801 234 5678"
+          class="font-[var(--body)] font-normal text-[0.98rem] p-3 px-[14px] border border-[var(--line)] rounded-lg bg-[var(--paper)] text-[var(--ink)] w-full min-w-0"
+        />
+      </div>
+      <span class="field-err" role="alert" hidden></span>
+    </div>
+
+    <label class="field grid gap-[6px] text-[0.85rem] font-semibold min-w-0">
+      <span class="lbl block">Gender <span class="req text-[var(--red)]" aria-hidden="true">*</span></span>
+      <select
+        id={`${p}gender`}
+        name="gender"
+        required
+        class="font-[var(--body)] font-normal text-[0.98rem] p-3 px-[14px] border border-[var(--line)] rounded-lg bg-[var(--paper)] text-[var(--ink)] w-full min-w-0"
+      >
+        <option value="">Select gender</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Prefer not to say">Prefer not to say</option>
+      </select>
+      <span class="field-err" role="alert" hidden></span>
+    </label>
+
+    <label class="field grid gap-[6px] text-[0.85rem] font-semibold min-w-0">
+      <span class="lbl block">Occupation <span class="req text-[var(--red)]" aria-hidden="true">*</span></span>
+      <select
+        id={`${p}occupation`}
+        name="occupation"
+        required
+        data-occ
+        class="font-[var(--body)] font-normal text-[0.98rem] p-3 px-[14px] border border-[var(--line)] rounded-lg bg-[var(--paper)] text-[var(--ink)] w-full min-w-0"
+      >
+        <option value="">Select current status</option>
+        <option value="Employed">Employed</option>
+        <option value="Self-employed">Self-employed</option>
+        <option value="Entrepreneur">Entrepreneur</option>
+        <option value="Student">Student</option>
+        <option value="Other">Other</option>
+      </select>
+      <span class="field-err" role="alert" hidden></span>
+    </label>
+
+    <label class="field full grid gap-[6px] text-[0.85rem] font-semibold min-w-0 col-span-full" data-level hidden>
+      <span class="lbl block">Employment level <span class="req text-[var(--red)]" aria-hidden="true">*</span></span>
+      <select
+        id={`${p}level`}
+        name="level"
+        class="font-[var(--body)] font-normal text-[0.98rem] p-3 px-[14px] border border-[var(--line)] rounded-lg bg-[var(--paper)] text-[var(--ink)] w-full min-w-0"
+      >
+        <option value="">Select your level</option>
+        <option value="Founder / Co-founder">Founder / Co-founder</option>
+        <option value="Executive / C-suite">Executive / C-suite</option>
+        <option value="Manager">Manager</option>
+        <option value="Associate">Associate</option>
+        <option value="Other">Other</option>
+      </select>
+      <span class="field-err" role="alert" hidden></span>
+    </label>
+
+    <label class="field grid gap-[6px] text-[0.85rem] font-semibold min-w-0">
+      Company name
+      <input
+        id={`${p}company`}
+        name="company"
+        type="text"
+        autocomplete={index === 0 ? "organization" : "off"}
+        placeholder="Acme Ltd"
+        class="font-[var(--body)] font-normal text-[0.98rem] p-3 px-[14px] border border-[var(--line)] rounded-lg bg-[var(--paper)] text-[var(--ink)] w-full min-w-0"
+      />
+    </label>
+
+    <label class="field grid gap-[6px] text-[0.85rem] font-semibold min-w-0">
+      Role
+      <input
+        id={`${p}role`}
+        name="role"
+        type="text"
+        autocomplete={index === 0 ? "organization-title" : "off"}
+        placeholder="Founder, Product Manager…"
+        class="font-[var(--body)] font-normal text-[0.98rem] p-3 px-[14px] border border-[var(--line)] rounded-lg bg-[var(--paper)] text-[var(--ink)] w-full min-w-0"
+      />
+    </label>
+
+    <label class="field grid gap-[6px] text-[0.85rem] font-semibold min-w-0">
+      <span class="lbl block">City <span class="req text-[var(--red)]" aria-hidden="true">*</span></span>
+      <input
+        id={`${p}city`}
+        name="city"
+        type="text"
+        required
+        placeholder="Lagos"
+        class="font-[var(--body)] font-normal text-[0.98rem] p-3 px-[14px] border border-[var(--line)] rounded-lg bg-[var(--paper)] text-[var(--ink)] w-full min-w-0"
+      />
+      <span class="field-err" role="alert" hidden></span>
+    </label>
+
+    <label class="field grid gap-[6px] text-[0.85rem] font-semibold min-w-0">
+      <span class="lbl block">Country <span class="req text-[var(--red)]" aria-hidden="true">*</span></span>
+      <select
+        id={`${p}country`}
+        name="country"
+        required
+        data-country
+        class="font-[var(--body)] font-normal text-[0.98rem] p-3 px-[14px] border border-[var(--line)] rounded-lg bg-[var(--paper)] text-[var(--ink)] w-full min-w-0"
+      >
+        <optgroup label="Common">
+          {PINNED_ISO.map((iso) => (
+            <option value={iso} selected={iso === 'NG'}>{flag(iso)}  {BY_ISO[iso].name}</option>
+          ))}
+        </optgroup>
+        <optgroup label="All countries">
+          {COUNTRIES.map((c) => (
+            <option value={c.iso}>{flag(c.iso)}  {c.name}</option>
+          ))}
+        </optgroup>
+      </select>
+      <span class="field-err" role="alert" hidden></span>
+    </label>
+  </div>
+</fieldset>
