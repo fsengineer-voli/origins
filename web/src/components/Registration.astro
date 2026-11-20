@@ -22,7 +22,8 @@ const defaultSources = [
 ];
 
 const {
-  workerUrl = import.meta.env.PUBLIC_WORKER_URL || '/submit',
+  // workerUrl = import.meta.env.PUBLIC_WORKER_URL || '/submit',
+  workerUrl = 'https://api.origins.sonderplace.com/submit',
   cohortSubtitle = 'March 19–20, 2027 · Lagos · In-person & online · hosted by Leke Alder',
   sourceOptions = defaultSources,
 } = Astro.props;
