@@ -1,12 +1,14 @@
 ---
-interface FaqItem {
+import FaqItem from './FaqItem.astro';
+
+interface FaqData {
   question: string;
   answer: string;
   tag?: string;
   open?: boolean;
 }
 
-const faqs: FaqItem[] = [
+const faqs: FaqData[] = [
   {
     question: 'Do I need to have a business to attend?',
     answer: 'No. Origins is for people with an existing business and for those still at the idea stage. The early topics cover how ideas are generated, so you can arrive with a running business, a rough idea, or just the urge to build something.',
@@ -49,19 +51,12 @@ const faqs: FaqItem[] = [
     </div>
     <div>
       {faqs.map((faq) => (
-        <details class="border-b border-[var(--dark-line)] first:border-t group" open={faq.open}>
-          <summary class="list-none cursor-pointer py-5.5 pr-10 pl-0 font-[var(--head)] font-semibold text-[1.02rem] relative select-none [&::-webkit-details-marker]:hidden">
-            {faq.question}
-          </summary>
-          <p class="pt-0 pr-10 pb-6 pl-0 text-[var(--dark-muted)] leading-relaxed m-0">
-            {faq.answer}
-            {faq.tag && (
-              <span class="tbc inline-block font-[var(--head)] font-semibold text-[0.62rem] leading-none tracking-[0.08em] uppercase py-1 px-1.5 border border-dashed border-current rounded opacity-75 align-middle ml-1.5">
-                {faq.tag}
-              </span>
-            )}
-          </p>
-        </details>
+        <FaqItem
+          question={faq.question}
+          answer={faq.answer}
+          tag={faq.tag}
+          open={faq.open}
+        />
       ))}
     </div>
   </div>

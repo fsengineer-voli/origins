@@ -1,0 +1,23 @@
+---
+interface Props {
+  number: string;
+  title: string;
+  points: string[];
+}
+
+const { number, title, points } = Astro.props;
+---
+
+<div class="topic bg-[var(--dark)] hover:bg-[var(--dark-2)] p-6 sm:p-7 grid gap-3 content-start transition-colors duration-200">
+  <span class="n font-[var(--head)] font-bold text-[0.82rem] leading-none text-[var(--red-on-dark)] tracking-[0.06em]">
+    {number}
+  </span>
+  <h3 class="font-[var(--head)] font-semibold text-[1.15rem] leading-[1.25] text-white">
+    {title}
+  </h3>
+  <ul class="m-0 pl-4 text-[var(--dark-muted)] text-[0.93rem] grid gap-1 list-disc">
+    {points.map((point) => (
+      <li>{point}</li>
+    ))}
+  </ul>
+</div>

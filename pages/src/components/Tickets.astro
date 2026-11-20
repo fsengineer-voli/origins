@@ -1,4 +1,9 @@
 ---
+import CurrencyToggle from './CurrencyToggle.astro';
+import TicketCard from './TicketCard.astro';
+import BundleCard from './BundleCard.astro';
+import TeamCard from './TeamCard.astro';
+
 const inPersonPerks = [
   'All eight topics, taught live in the room',
   'Live critique of your business idea',
@@ -39,153 +44,46 @@ const teamPerks = [
       <span class="muted text-[var(--dark-muted)] text-[0.95rem]">
         Prices for March 19–20, 2027 · Lagos
       </span>
-      <div class="seg inline-flex p-1 border border-[var(--dark-line)] rounded-full" role="group" aria-label="Currency">
-        <button
-          type="button"
-          aria-pressed="true"
-          data-cur="NGN"
-          class="font-[var(--head)] font-semibold text-[0.88rem] leading-none py-2.5 px-4.5 rounded-full border-0 bg-transparent text-[var(--dark-muted)] cursor-pointer"
-        >
-          ₦ Naira
-        </button>
-        <button
-          type="button"
-          aria-pressed="false"
-          data-cur="USD"
-          class="font-[var(--head)] font-semibold text-[0.88rem] leading-none py-2.5 px-4.5 rounded-full border-0 bg-transparent text-[var(--dark-muted)] cursor-pointer"
-        >
-          $ Dollar
-        </button>
-      </div>
+      <CurrencyToggle defaultCurrency="NGN" />
     </div>
 
     <p class="group-label font-[var(--head)] font-semibold text-[0.8rem] leading-none tracking-[0.12em] uppercase text-[var(--dark-muted)] my-10 mb-4 flex items-center gap-3">
       Individual tickets
     </p>
     <div class="tk-grid grid grid-cols-1 md:grid-cols-2 gap-5">
-      <article class="tk bg-[var(--surface)] text-[var(--ink)] rounded-[10px] p-7.5 flex flex-col gap-4.5 relative border-2 border-transparent" data-card="inperson">
-        <span class="flag absolute -top-3 left-6.5 bg-[var(--red)] text-white font-[var(--head)] font-semibold text-[0.68rem] leading-none tracking-[0.1em] uppercase py-1.5 px-2.5 rounded">
-          Limited seats
-        </span>
-        <div>
-          <h3 class="text-[1.5rem] font-[var(--head)] font-semibold leading-tight m-0">In-person</h3>
-          <p class="sub text-[var(--muted)] text-[0.95rem] mt-1">Two full days in the room with Leke Alder in Lagos.</p>
-        </div>
-        <div class="price grid gap-0.5">
-          <span class="amt font-[var(--head)] font-bold text-[clamp(2.2rem,4.4vw,2.9rem)] leading-[1.05] tracking-[-0.02em]" data-price="inperson">
-            ₦800,000
-          </span>
-          <span class="per text-[0.85rem] text-[var(--muted)]">per person · 2 days</span>
-        </div>
-        <ul class="list-none m-0 p-0 grid gap-2.5 text-[0.95rem]">
-          {inPersonPerks.map((perk) => (
-            <li class="grid grid-cols-[18px_1fr] gap-2.5 items-start">
-              <span class="w-2.5 h-2.5 mt-1.5 border-2 border-[var(--red)] rounded-full block flex-shrink-0" />
-              <span>{perk}</span>
-            </li>
-          ))}
-        </ul>
-        <button class="btn btn-red mt-auto w-full" type="button" data-select="inperson">
-          Select in-person
-        </button>
-      </article>
-
-      <article class="tk bg-[var(--surface)] text-[var(--ink)] rounded-[10px] p-7.5 flex flex-col gap-4.5 relative border-2 border-transparent" data-card="online">
-        <div>
-          <h3 class="text-[1.5rem] font-[var(--head)] font-semibold leading-tight m-0">Online</h3>
-          <p class="sub text-[var(--muted)] text-[0.95rem] mt-1">Join live from anywhere. Past participants joined from 8 countries.</p>
-        </div>
-        <div class="price grid gap-0.5">
-          <span class="amt font-[var(--head)] font-bold text-[clamp(2.2rem,4.4vw,2.9rem)] leading-[1.05] tracking-[-0.02em]" data-price="online">
-            ₦700,000
-          </span>
-          <span class="per text-[0.85rem] text-[var(--muted)]">per person · 2 days</span>
-        </div>
-        <ul class="list-none m-0 p-0 grid gap-2.5 text-[0.95rem]">
-          {onlinePerks.map((perk) => (
-            <li class="grid grid-cols-[18px_1fr] gap-2.5 items-start">
-              <span class="w-2.5 h-2.5 mt-1.5 border-2 border-[var(--red)] rounded-full block flex-shrink-0" />
-              <span>{perk}</span>
-            </li>
-          ))}
-        </ul>
-        <button class="btn btn-ghost text-[var(--ink)] mt-auto w-full" type="button" data-select="online">
-          Select online
-        </button>
-      </article>
+      <TicketCard
+        type="inperson"
+        title="In-person"
+        subtitle="Two full days in the room with Leke Alder in Lagos."
+        initialPrice="₦800,000"
+        badge="Limited seats"
+        perks={inPersonPerks}
+        buttonText="Select in-person"
+        buttonVariant="red"
+      />
+      <TicketCard
+        type="online"
+        title="Online"
+        subtitle="Join live from anywhere. Past participants joined from 8 countries."
+        initialPrice="₦700,000"
+        perks={onlinePerks}
+        buttonText="Select online"
+        buttonVariant="ghost"
+      />
     </div>
 
     <p class="group-label font-[var(--head)] font-semibold text-[0.8rem] leading-none tracking-[0.12em] uppercase text-[var(--dark-muted)] my-10 mb-4 flex items-center gap-3">
       Bundles
     </p>
     <div class="tk-grid grid grid-cols-1 md:grid-cols-2 gap-5">
-      <article class="tk bg-[var(--surface)] text-[var(--ink)] rounded-[10px] p-7.5 flex flex-col gap-4.5 relative border-2 border-transparent" data-card="bundle">
-        <span class="flag absolute -top-3 left-6.5 bg-[var(--red)] text-white font-[var(--head)] font-semibold text-[0.68rem] leading-none tracking-[0.1em] uppercase py-1.5 px-2.5 rounded">
-          Save 10%
-        </span>
-        <div>
-          <h3 class="text-[1.5rem] font-[var(--head)] font-semibold leading-tight m-0">2-in-1 Bundle</h3>
-          <p class="sub text-[var(--muted)] text-[0.95rem] mt-1">Two tickets for two people. Bring a co-founder, partner or colleague. Mix formats however you like.</p>
-        </div>
-        <div class="price grid gap-0.5">
-          <span class="was text-[var(--muted)] line-through text-[0.95rem] min-h-[1.5em]" id="bundle-was">₦1,600,000</span>
-          <span class="amt font-[var(--head)] font-bold text-[clamp(2.2rem,4.4vw,2.9rem)] leading-[1.05] tracking-[-0.02em]" id="bundle-amt">
-            ₦1,440,000
-          </span>
-          <span class="per text-[0.85rem] text-[var(--muted)]">for 2 people · 10% off</span>
-        </div>
-        <div class="combo grid gap-2" role="radiogroup" aria-label="Bundle combination">
-          <label class="flex items-center justify-between gap-3 p-3 px-3.5 border border-[var(--line)] rounded-lg cursor-pointer font-medium text-[0.95rem]">
-            <span class="flex items-center gap-2.5">
-              <input type="radio" name="combo" id="combo-ii" value="inperson,inperson" checked class="accent-[var(--red)] w-4 h-4 m-0" />
-              Both in-person
-            </span>
-            <span class="cp font-[var(--head)] font-semibold text-[0.9rem] whitespace-nowrap" data-combo="inperson,inperson"></span>
-          </label>
-          <label class="flex items-center justify-between gap-3 p-3 px-3.5 border border-[var(--line)] rounded-lg cursor-pointer font-medium text-[0.95rem]">
-            <span class="flex items-center gap-2.5">
-              <input type="radio" name="combo" id="combo-oo" value="online,online" class="accent-[var(--red)] w-4 h-4 m-0" />
-              Both online
-            </span>
-            <span class="cp font-[var(--head)] font-semibold text-[0.9rem] whitespace-nowrap" data-combo="online,online"></span>
-          </label>
-          <label class="flex items-center justify-between gap-3 p-3 px-3.5 border border-[var(--line)] rounded-lg cursor-pointer font-medium text-[0.95rem]">
-            <span class="flex items-center gap-2.5">
-              <input type="radio" name="combo" id="combo-io" value="inperson,online" class="accent-[var(--red)] w-4 h-4 m-0" />
-              One in-person, one online
-            </span>
-            <span class="cp font-[var(--head)] font-semibold text-[0.9rem] whitespace-nowrap" data-combo="inperson,online"></span>
-          </label>
-        </div>
-        <button class="btn btn-red mt-auto w-full" type="button" data-select="bundle">
-          Select bundle
-        </button>
-      </article>
-
-      <article class="tk bg-[var(--surface)] text-[var(--ink)] rounded-[10px] p-7.5 flex flex-col gap-4.5 relative border-2 border-transparent" data-card="team">
-        <div>
-          <h3 class="text-[1.5rem] font-[var(--head)] font-semibold leading-tight m-0">Team</h3>
-          <p class="sub text-[var(--muted)] text-[0.95rem] mt-1">Send your team. For organisations booking 3 or more seats.</p>
-        </div>
-        <div class="price grid gap-0.5">
-          <span class="amt font-[var(--head)] font-bold text-[1.9rem] leading-[1.05] tracking-[-0.02em]">Group pricing</span>
-          <span class="per text-[0.85rem] text-[var(--muted)]">in-person, online or mixed</span>
-        </div>
-        <ul class="list-none m-0 p-0 grid gap-2.5 text-[0.95rem]">
-          {teamPerks.map((perk) => (
-            <li class="grid grid-cols-[18px_1fr] gap-2.5 items-start">
-              <span class="w-2.5 h-2.5 mt-1.5 border-2 border-[var(--red)] rounded-full block flex-shrink-0" />
-              <span>{perk}</span>
-            </li>
-          ))}
-        </ul>
-        <p class="text-[0.92rem] text-[var(--muted)] leading-relaxed m-0">
-          Email <span class="email font-semibold text-[var(--ink)] select-all"><a href="mailto:info@sonderplace.com" class="hover:underline">info@sonderplace.com</a></span> with your organisation's name and number of seats.
-        </p>
-        <a class="btn btn-ghost text-[var(--ink)] mt-auto w-full" href="#faq">
-          Enquire about team seats
-        </a>
-      </article>
+      <BundleCard
+        initialWasPrice="₦1,600,000"
+        initialAmtPrice="₦1,440,000"
+      />
+      <TeamCard
+        perks={teamPerks}
+        contactEmail="info@sonderplace.com"
+      />
     </div>
 
     <div class="tk-note grid grid-cols-1 md:grid-cols-3 gap-6 mt-8 text-[0.9rem] text-[var(--dark-muted)]">

@@ -1,0 +1,24 @@
+---
+interface Props {
+  question: string;
+  answer: string;
+  tag?: string;
+  open?: boolean;
+}
+
+const { question, answer, tag, open = false } = Astro.props;
+---
+
+<details class="border-b border-[var(--dark-line)] first:border-t group" open={open}>
+  <summary class="list-none cursor-pointer py-[22px] pr-10 pl-0 font-[var(--head)] font-semibold text-[1.02rem] relative select-none [&::-webkit-details-marker]:hidden">
+    {question}
+  </summary>
+  <p class="pt-0 pr-10 pb-6 pl-0 text-[var(--dark-muted)] leading-relaxed m-0">
+    {answer}
+    {tag && (
+      <span class="tbc inline-block font-[var(--head)] font-semibold text-[0.62rem] leading-none tracking-[0.08em] uppercase py-1 px-[6px] border border-dashed border-current rounded opacity-75 align-middle ml-[6px]">
+        {tag}
+      </span>
+    )}
+  </p>
+</details>

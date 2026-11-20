@@ -1,4 +1,6 @@
 ---
+import OutcomeCard from './OutcomeCard.astro';
+
 interface Outcome {
   title: string;
   description: string;
@@ -42,14 +44,10 @@ const outcomes: Outcome[] = [
     </div>
     <div class="out-grid grid grid-cols-1 min-[861px]:grid-cols-3 gap-6">
       {outcomes.map((outcome) => (
-        <div class="out grid gap-2.5 content-start pt-5 border-t-2 border-[var(--ink)]">
-          <h3 class="font-[var(--head)] font-semibold text-[1.08rem] leading-[1.25]">
-            {outcome.title}
-          </h3>
-          <p class="text-[var(--muted)] text-[0.96rem] leading-relaxed">
-            {outcome.description}
-          </p>
-        </div>
+        <OutcomeCard
+          title={outcome.title}
+          description={outcome.description}
+        />
       ))}
     </div>
   </div>

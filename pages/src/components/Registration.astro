@@ -1,5 +1,12 @@
 ---
-const sourceOptions = [
+import OrderSummary from './OrderSummary.astro';
+
+interface Props {
+  cohortSubtitle?: string;
+  sourceOptions?: string[];
+}
+
+const defaultSources = [
   'Instagram',
   'LinkedIn',
   'X (Twitter)',
@@ -11,6 +18,11 @@ const sourceOptions = [
   'Sonderplace',
   'Other',
 ];
+
+const {
+  cohortSubtitle = 'March 19–20, 2027 · Lagos · In-person & online · hosted by Leke Alder',
+  sourceOptions = defaultSources,
+} = Astro.props;
 ---
 
 <section id="register" class="py-16 md:py-24">
@@ -21,11 +33,11 @@ const sourceOptions = [
         Your information
       </h2>
       <p class="lede text-[1.12rem] text-[var(--muted)] max-w-[60ch] leading-relaxed">
-        March 19–20, 2027 · Lagos · In-person &amp; online · hosted by Leke Alder
+        {cohortSubtitle}
       </p>
     </div>
 
-    <div class="success bg-[var(--surface)] border border-[var(--line)] rounded-[10px] p-8 grid gap-4.5 text-[var(--ink)]" id="success" hidden></div>
+    <div class="success bg-[var(--surface)] border border-[var(--line)] rounded-[10px] p-8 grid gap-[18px] text-[var(--ink)]" id="success" hidden></div>
 
     <div class="reg-grid grid grid-cols-1 min-[901px]:grid-cols-[1fr_340px] gap-10 items-start">
       <form class="reg-form grid gap-7" id="reg-form" novalidate>
@@ -33,14 +45,14 @@ const sourceOptions = [
         <fieldset class="border border-[var(--line)] rounded-[10px] p-6 m-0 bg-[var(--surface)] min-w-0">
           <legend class="font-[var(--head)] font-semibold text-[1rem] px-2">One last thing</legend>
           <div class="fields grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <label class="field full grid gap-1.5 text-[0.85rem] font-semibold min-w-0 col-span-full">
+            <label class="field full grid gap-[6px] text-[0.85rem] font-semibold min-w-0 col-span-full">
               <span class="lbl block">
                 How did you hear about us? <span class="req text-[var(--red)]" aria-hidden="true">*</span>
               </span>
               <select
                 id="f-source"
                 name="source"
-                class="font-[var(--body)] font-normal text-[0.98rem] p-3 px-3.5 border border-[var(--line)] rounded-lg bg-[var(--paper)] text-[var(--ink)] w-full min-w-0"
+                class="font-[var(--body)] font-normal text-[0.98rem] p-3 px-[14px] border border-[var(--line)] rounded-lg bg-[var(--paper)] text-[var(--ink)] w-full min-w-0"
               >
                 <option value="">Select an option</option>
                 {sourceOptions.map((opt) => (
@@ -52,31 +64,7 @@ const sourceOptions = [
         </fieldset>
       </form>
 
-      <aside class="summary sticky top-24 bg-[var(--dark)] text-[var(--on-dark)] rounded-[10px] p-6.5 grid gap-3 text-[0.95rem]" aria-live="polite">
-        <h3 class="text-[1.1rem] mb-1 font-[var(--head)] font-semibold text-white">Order summary</h3>
-        <div id="s-lines" class="grid gap-2.5"></div>
-        <div class="row flex justify-between gap-3 text-[var(--dark-muted)]" id="s-disc-row">
-          <span>Bundle discount (10%)</span>
-          <span id="s-disc"></span>
-        </div>
-        <div class="row total flex justify-between items-baseline gap-3 border-t border-[var(--dark-line)] pt-3.5 font-semibold text-white">
-          <span>Total</span>
-          <span id="s-total" class="font-[var(--head)] font-bold text-[1.5rem]"></span>
-        </div>
-        <button
-          class="btn btn-red w-full mt-2"
-          type="submit"
-          form="reg-form"
-          id="pay-btn"
-          disabled
-        >
-          Continue to checkout
-        </button>
-        <small id="hint" class="text-[var(--dark-muted)] text-[0.8rem] text-center block">
-          Complete all required fields to continue.
-        </small>
-        <p class="err text-[#FF8A8F] text-[0.88rem] font-semibold m-0" id="err" hidden></p>
-      </aside>
+      <OrderSummary />
     </div>
   </div>
 </section>

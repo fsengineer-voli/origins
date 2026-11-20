@@ -14,7 +14,7 @@ const facts: Fact[] = [
 <section class="strip bg-[var(--red)] text-white py-0" aria-label="Event details">
   <div class="wrap strip-grid grid grid-cols-1 sm:grid-cols-2 min-[861px]:grid-cols-4">
     {facts.map((fact, index) => (
-      <div class={`fact grid gap-2 content-center p-5 min-[861px]:p-6 min-[861px]:py-6.5 ${index === 0 ? 'min-[861px]:border-l-0 min-[861px]:pl-0' : 'border-t sm:border-t-0 sm:border-l border-white/25'}`}>
+      <div class={`fact grid gap-2 content-center p-5 min-[861px]:p-6 min-[861px]:py-[26px] ${index === 0 ? 'min-[861px]:border-l-0 min-[861px]:pl-0' : 'border-t sm:border-t-0 sm:border-l border-white/25'}`}>
         <span class="k font-[var(--head)] font-semibold text-[0.7rem] leading-none tracking-[0.14em] uppercase text-white/80">
           {fact.key}
         </span>
@@ -23,7 +23,7 @@ const facts: Fact[] = [
         </span>
       </div>
     ))}
-    <div class="fact grid gap-2 content-center p-5 min-[861px]:p-6 min-[861px]:py-6.5 border-t sm:border-t min-[861px]:border-t-0 sm:border-l border-white/25">
+    <div class="fact grid gap-2 content-center p-5 min-[861px]:p-6 min-[861px]:py-[26px] border-t sm:border-t min-[861px]:border-t-0 sm:border-l border-white/25">
       <span class="k font-[var(--head)] font-semibold text-[0.7rem] leading-none tracking-[0.14em] uppercase text-white/80">
         Starts in
       </span>

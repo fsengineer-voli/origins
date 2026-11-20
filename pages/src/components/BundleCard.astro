@@ -1,0 +1,64 @@
+---
+interface Props {
+  initialWasPrice?: string;
+  initialAmtPrice?: string;
+}
+
+const {
+  initialWasPrice = '₦1,600,000',
+  initialAmtPrice = '₦1,440,000',
+} = Astro.props;
+---
+
+<article
+  class="tk bg-[var(--surface)] text-[var(--ink)] rounded-[10px] p-[30px] flex flex-col gap-[18px] relative border-2 border-transparent"
+  data-card="bundle"
+>
+  <span class="flag absolute -top-3 left-[26px] bg-[var(--red)] text-white font-[var(--head)] font-semibold text-[0.68rem] leading-none tracking-[0.1em] uppercase py-[6px] px-[10px] rounded">
+    Save 10%
+  </span>
+  <div>
+    <h3 class="text-[1.5rem] font-[var(--head)] font-semibold leading-tight m-0">2-in-1 Bundle</h3>
+    <p class="sub text-[var(--muted)] text-[0.95rem] mt-1">
+      Two tickets for two people. Bring a co-founder, partner or colleague. Mix formats however you like.
+    </p>
+  </div>
+  <div class="price grid gap-[2px]">
+    <span class="was text-[var(--muted)] line-through text-[0.95rem] min-h-[1.5em]" id="bundle-was">
+      {initialWasPrice}
+    </span>
+    <span
+      class="amt font-[var(--head)] font-bold text-[clamp(2.2rem,4.4vw,2.9rem)] leading-[1.05] tracking-[-0.02em]"
+      id="bundle-amt"
+    >
+      {initialAmtPrice}
+    </span>
+    <span class="per text-[0.85rem] text-[var(--muted)]">for 2 people · 10% off</span>
+  </div>
+  <div class="combo grid gap-2" role="radiogroup" aria-label="Bundle combination">
+    <label class="flex items-center justify-between gap-3 p-3 px-[14px] border border-[var(--line)] rounded-lg cursor-pointer font-medium text-[0.95rem]">
+      <span class="flex items-center gap-[10px]">
+        <input type="radio" name="combo" id="combo-ii" value="inperson,inperson" checked class="accent-[var(--red)] w-4 h-4 m-0" />
+        Both in-person
+      </span>
+      <span class="cp font-[var(--head)] font-semibold text-[0.9rem] whitespace-nowrap" data-combo="inperson,inperson"></span>
+    </label>
+    <label class="flex items-center justify-between gap-3 p-3 px-[14px] border border-[var(--line)] rounded-lg cursor-pointer font-medium text-[0.95rem]">
+      <span class="flex items-center gap-[10px]">
+        <input type="radio" name="combo" id="combo-oo" value="online,online" class="accent-[var(--red)] w-4 h-4 m-0" />
+        Both online
+      </span>
+      <span class="cp font-[var(--head)] font-semibold text-[0.9rem] whitespace-nowrap" data-combo="online,online"></span>
+    </label>
+    <label class="flex items-center justify-between gap-3 p-3 px-[14px] border border-[var(--line)] rounded-lg cursor-pointer font-medium text-[0.95rem]">
+      <span class="flex items-center gap-[10px]">
+        <input type="radio" name="combo" id="combo-io" value="inperson,online" class="accent-[var(--red)] w-4 h-4 m-0" />
+        One in-person, one online
+      </span>
+      <span class="cp font-[var(--head)] font-semibold text-[0.9rem] whitespace-nowrap" data-combo="inperson,online"></span>
+    </label>
+  </div>
+  <button class="btn btn-red mt-auto w-full" type="button" data-select="bundle">
+    Select bundle
+  </button>
+</article>

@@ -1,0 +1,26 @@
+---
+interface Props {
+  defaultCurrency?: 'NGN' | 'USD';
+}
+
+const { defaultCurrency = 'NGN' } = Astro.props;
+---
+
+<div class="seg inline-flex p-1 border border-[var(--dark-line)] rounded-full" role="group" aria-label="Currency">
+  <button
+    type="button"
+    aria-pressed={defaultCurrency === 'NGN' ? 'true' : 'false'}
+    data-cur="NGN"
+    class="font-[var(--head)] font-semibold text-[0.88rem] leading-none py-[10px] px-[18px] rounded-full border-0 bg-transparent text-[var(--dark-muted)] cursor-pointer"
+  >
+    ₦ Naira
+  </button>
+  <button
+    type="button"
+    aria-pressed={defaultCurrency === 'USD' ? 'true' : 'false'}
+    data-cur="USD"
+    class="font-[var(--head)] font-semibold text-[0.88rem] leading-none py-[10px] px-[18px] rounded-full border-0 bg-transparent text-[var(--dark-muted)] cursor-pointer"
+  >
+    $ Dollar
+  </button>
+</div>

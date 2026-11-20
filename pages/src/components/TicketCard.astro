@@ -1,0 +1,64 @@
+---
+interface Props {
+  type: 'inperson' | 'online';
+  title: string;
+  subtitle: string;
+  initialPrice: string;
+  perText?: string;
+  badge?: string;
+  perks: string[];
+  buttonText: string;
+  buttonVariant?: 'red' | 'ghost';
+}
+
+const {
+  type,
+  title,
+  subtitle,
+  initialPrice,
+  perText = 'per person · 2 days',
+  badge,
+  perks,
+  buttonText,
+  buttonVariant = 'red',
+} = Astro.props;
+---
+
+<article
+  class="tk bg-[var(--surface)] text-[var(--ink)] rounded-[10px] p-[30px] flex flex-col gap-[18px] relative border-2 border-transparent"
+  data-card={type}
+>
+  {badge && (
+    <span class="flag absolute -top-3 left-[26px] bg-[var(--red)] text-white font-[var(--head)] font-semibold text-[0.68rem] leading-none tracking-[0.1em] uppercase py-[6px] px-[10px] rounded">
+      {badge}
+    </span>
+  )}
+  <div>
+    <h3 class="text-[1.5rem] font-[var(--head)] font-semibold leading-tight m-0">{title}</h3>
+    <p class="sub text-[var(--muted)] text-[0.95rem] mt-1">{subtitle}</p>
+  </div>
+  <div class="price grid gap-[2px]">
+    <span
+      class="amt font-[var(--head)] font-bold text-[clamp(2.2rem,4.4vw,2.9rem)] leading-[1.05] tracking-[-0.02em]"
+      data-price={type}
+    >
+      {initialPrice}
+    </span>
+    <span class="per text-[0.85rem] text-[var(--muted)]">{perText}</span>
+  </div>
+  <ul class="list-none m-0 p-0 grid gap-[10px] text-[0.95rem]">
+    {perks.map((perk) => (
+      <li class="grid grid-cols-[18px_1fr] gap-[10px] items-start">
+        <span class="w-[10px] h-[10px] mt-[6px] border-2 border-[var(--red)] rounded-full block shrink-0" />
+        <span>{perk}</span>
+      </li>
+    ))}
+  </ul>
+  <button
+    class={`btn ${buttonVariant === 'red' ? 'btn-red' : 'btn-ghost text-[var(--ink)]'} mt-auto w-full`}
+    type="button"
+    data-select={type}
+  >
+    {buttonText}
+  </button>
+</article>

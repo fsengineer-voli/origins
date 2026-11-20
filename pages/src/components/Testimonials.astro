@@ -1,4 +1,7 @@
 ---
+import VideoCard from './VideoCard.astro';
+import QuoteCard from './QuoteCard.astro';
+
 interface VideoTestimonial {
   name: string;
   duration: string;
@@ -77,36 +80,21 @@ const quotes: Quote[] = [
 
     <div class="vids grid grid-cols-1 sm:grid-cols-2 min-[861px]:grid-cols-3 gap-5">
       {videos.map((vid) => (
-        <a
-          class="vid no-underline relative aspect-[16/9] rounded-lg overflow-hidden bg-[var(--dark)] text-white flex items-end p-4 border-0 cursor-pointer text-left font-inherit w-full group"
-          href={vid.url}
-          target="_blank"
-          rel="noopener"
-        >
-          <img
-            src={vid.image}
-            alt=""
-            class="absolute inset-0 w-full h-full object-cover transition-transform duration-400 group-hover:scale-105"
-          />
-          <i class="play absolute z-10 top-3.5 right-3.5 w-11 h-11 rounded-full bg-[var(--red)] grid place-items-center" aria-hidden="true" />
-          <span class="relative z-10 font-[var(--head)] font-semibold text-[1rem] leading-[1.25]">
-            <small class="block font-[var(--body)] font-medium text-[0.72rem] leading-[1.4] opacity-85 uppercase tracking-[0.08em]">
-              {vid.duration}
-            </small>
-            {vid.name}
-          </span>
-        </a>
+        <VideoCard
+          name={vid.name}
+          duration={vid.duration}
+          image={vid.image}
+          url={vid.url}
+        />
       ))}
     </div>
 
     <div class="quotes grid grid-cols-1 min-[861px]:grid-cols-3 gap-5 mt-10">
       {quotes.map((item) => (
-        <figure class="q m-0 bg-[var(--surface)] border border-[var(--line)] rounded-lg p-6.5 flex flex-col gap-4 justify-between">
-          <p class="text-[1.04rem] leading-relaxed relative">
-            {item.quote}
-          </p>
-          <cite class="not-italic text-[0.8rem] text-[var(--muted)]">{item.author}</cite>
-        </figure>
+        <QuoteCard
+          quote={item.quote}
+          author={item.author}
+        />
       ))}
     </div>
   </div>

@@ -1,0 +1,44 @@
+---
+interface Props {
+  perks?: string[];
+  contactEmail?: string;
+}
+
+const {
+  perks = [
+    'Discounted rate for 3+ seats',
+    'One invoice for your organisation',
+    'Any mix of in-person and online seats',
+    'A single point of contact for your team',
+  ],
+  contactEmail = 'info@sonderplace.com',
+} = Astro.props;
+---
+
+<article
+  class="tk bg-[var(--surface)] text-[var(--ink)] rounded-[10px] p-[30px] flex flex-col gap-[18px] relative border-2 border-transparent"
+  data-card="team"
+>
+  <div>
+    <h3 class="text-[1.5rem] font-[var(--head)] font-semibold leading-tight m-0">Team</h3>
+    <p class="sub text-[var(--muted)] text-[0.95rem] mt-1">Send your team. For organisations booking 3 or more seats.</p>
+  </div>
+  <div class="price grid gap-[2px]">
+    <span class="amt font-[var(--head)] font-bold text-[1.9rem] leading-[1.05] tracking-[-0.02em]">Group pricing</span>
+    <span class="per text-[0.85rem] text-[var(--muted)]">in-person, online or mixed</span>
+  </div>
+  <ul class="list-none m-0 p-0 grid gap-[10px] text-[0.95rem]">
+    {perks.map((perk) => (
+      <li class="grid grid-cols-[18px_1fr] gap-[10px] items-start">
+        <span class="w-[10px] h-[10px] mt-[6px] border-2 border-[var(--red)] rounded-full block shrink-0" />
+        <span>{perk}</span>
+      </li>
+    ))}
+  </ul>
+  <p class="text-[0.92rem] text-[var(--muted)] leading-relaxed m-0">
+    Email <span class="email font-semibold text-[var(--ink)] select-all"><a href={`mailto:${contactEmail}`} class="hover:underline">{contactEmail}</a></span> with your organisation's name and number of seats.
+  </p>
+  <a class="btn btn-ghost text-[var(--ink)] mt-auto w-full" href="#faq">
+    Enquire about team seats
+  </a>
+</article>
