@@ -8,6 +8,7 @@
   "upload_source_maps": true,
     "vars": {
     "PUBLIC_WORKER_URL": "api.origins.sonderplace.com",
+    "ALLOWED_ORIGIN": "https://api.origins.sonderplace.com"
   },
   // Set this to today's date
   "observability": {
