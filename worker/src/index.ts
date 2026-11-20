@@ -231,22 +231,6 @@ export default {
     }
 
     let body: any;
-    // try {
-    //   body = await request.json();
-    // } catch {
-    //   return json({ success: false, message: "Invalid payload." }, 400, origin);
-    // }
-
-
-    // if (request.method !== "POST" && request.method !== "OPTIONS") {
-    //   return env.ASSETS.fetch(request);
-    // }
-
-    // const origin = env.ALLOWED_ORIGIN ?? "*";
-
-    // if (request.method === "OPTIONS") return json({}, 204, origin);
-
-    // let body: any;
     try {
       body = await request.json();
     } catch {
