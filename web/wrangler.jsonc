@@ -1,0 +1,18 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "origins-v2",
+  "main": "./dist/_worker.js/index.js",
+  "upload_source_maps": true,
+    "vars": {
+    "PUBLIC_WORKER_URL": "api.origins.sonderplace.com",
+  },
+  // Set this to today's date
+  "compatibility_date": "2026-11-20",
+  "assets": {
+    "binding": "ASSETS",
+    "directory": "./dist"
+  },
+  "observability": {
+    "enabled": true
+  }
+}
