@@ -1,0 +1,68 @@
+---
+interface FaqItem {
+  question: string;
+  answer: string;
+  tag?: string;
+  open?: boolean;
+}
+
+const faqs: FaqItem[] = [
+  {
+    question: 'Do I need to have a business to attend?',
+    answer: 'No. Origins is for people with an existing business and for those still at the idea stage. The early topics cover how ideas are generated, so you can arrive with a running business, a rough idea, or just the urge to build something.',
+    open: true,
+  },
+  {
+    question: 'How does the 2-in-1 Bundle work?',
+    answer: "It's two tickets for two people, with 10% off the combined price. Both can attend in-person, both online, or one of each. You'll enter both attendees' details when you register.",
+  },
+  {
+    question: 'Is the online experience the same as in-person?',
+    answer: 'You get the same eight topics, live, with the same facilitator. Online participants join facilitated breakout rooms and can submit their ideas for feedback through the host. In-person attendees also get meals and in-room networking.',
+  },
+  {
+    question: 'Where in Lagos is the workshop?',
+    answer: 'The full venue address is sent to in-person attendees with their confirmation.',
+    tag: 'Confirm',
+  },
+  {
+    question: 'Will replays be available?',
+    answer: 'No. The sessions are practical and designed to be attended live. There are hands-on workshops and exercises to complete during the sessions.',
+  },
+  {
+    question: 'Can my company pay?',
+    answer: "Yes. Email us with your organisation's details and we'll issue an invoice. For 3 or more seats, ask about team pricing.",
+  },
+];
+---
+
+<section class="dark bg-[var(--dark)] text-[var(--on-dark)] py-16 md:py-24" id="faq">
+  <div class="wrap faq-grid grid grid-cols-1 min-[861px]:grid-cols-[0.7fr_1.3fr] gap-8 min-[861px]:gap-16">
+    <div class="sec-head m-0 max-w-[760px] grid gap-4 content-start">
+      <p class="eyebrow text-[var(--red-on-dark)]">FAQ</p>
+      <h2 class="text-[clamp(1.9rem,4vw,3rem)] font-[var(--head)] font-semibold leading-[1.12] tracking-[-0.02em] text-white">
+        Questions, answered.
+      </h2>
+      <p class="lede text-[1.12rem] text-[var(--dark-muted)] leading-relaxed">
+        Anything else? Email <span class="email font-semibold text-white select-all"><a href="mailto:info@sonderplace.com" class="hover:underline">info@sonderplace.com</a></span>
+      </p>
+    </div>
+    <div>
+      {faqs.map((faq) => (
+        <details class="border-b border-[var(--dark-line)] first:border-t group" open={faq.open}>
+          <summary class="list-none cursor-pointer py-5.5 pr-10 pl-0 font-[var(--head)] font-semibold text-[1.02rem] relative select-none [&::-webkit-details-marker]:hidden">
+            {faq.question}
+          </summary>
+          <p class="pt-0 pr-10 pb-6 pl-0 text-[var(--dark-muted)] leading-relaxed m-0">
+            {faq.answer}
+            {faq.tag && (
+              <span class="tbc inline-block font-[var(--head)] font-semibold text-[0.62rem] leading-none tracking-[0.08em] uppercase py-1 px-1.5 border border-dashed border-current rounded opacity-75 align-middle ml-1.5">
+                {faq.tag}
+              </span>
+            )}
+          </p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

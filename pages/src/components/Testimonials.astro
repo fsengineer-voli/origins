@@ -1,0 +1,113 @@
+---
+interface VideoTestimonial {
+  name: string;
+  duration: string;
+  image: string;
+  url: string;
+}
+
+interface Quote {
+  quote: string;
+  author: string;
+}
+
+const videos: VideoTestimonial[] = [
+  {
+    name: 'Deji Onadeko',
+    duration: 'Watch · 1:20',
+    image: 'img/tm2.jpg',
+    url: 'https://www.youtube.com/watch?v=Wr2zZuwGCi4&list=PLHE5syv2VWeo',
+  },
+  {
+    name: 'Seun Johnson',
+    duration: 'Watch · 1:00',
+    image: 'img/tm5.jpg',
+    url: 'https://www.youtube.com/watch?v=qW9VE9DrVz8&list=PLHE5syv2VWeo',
+  },
+  {
+    name: 'Linda Adeyemi',
+    duration: 'Watch · 1:42',
+    image: 'img/tm3.jpg',
+    url: 'https://www.youtube.com/watch?v=5KdEkefhJD0&list=PLHE5syv2VWeo',
+  },
+  {
+    name: 'Oluwaseyitan Jaiyeoba',
+    duration: 'Watch · 1:50',
+    image: 'img/tm4.jpg',
+    url: 'https://www.youtube.com/watch?v=lWdVyd6uIwc&list=PLHE5syv2VWeo',
+  },
+  {
+    name: 'Chibuikem Chukwuemeka',
+    duration: 'Watch · 1:28',
+    image: 'img/tm1.jpg',
+    url: 'https://www.youtube.com/watch?v=Is80TjkOnac&list=PLHE5syv2VWeo',
+  },
+  {
+    name: 'Taiwo Shittu-Alamu',
+    duration: 'Watch · 2:42',
+    image: 'img/tm6.jpg',
+    url: 'https://www.youtube.com/watch?v=mITHGANr4dg&list=PLHE5syv2VWeo',
+  },
+];
+
+const quotes: Quote[] = [
+  { quote: 'I benefited greatly from the live critique and feedback of my business ideas.', author: 'Participant' },
+  { quote: 'Mr. Alder was extremely generous with his knowledge, wisdom and experience.', author: 'Participant' },
+  { quote: 'I learnt that brand is beyond name, logo etc but rather the thinking behind the business.', author: 'Participant' },
+  { quote: 'The teachings were practical and can be put to use immediately.', author: 'Participant' },
+  { quote: 'All the materials and conversations shared during the workshop was a total mind shift.', author: 'Participant' },
+  { quote: 'Some home truth by Sir Alder, definitely not from the textbook.', author: 'Participant' },
+];
+---
+
+<section id="testimonials" class="py-16 md:py-24">
+  <div class="wrap">
+    <div class="sec-head mb-12 max-w-[760px] grid gap-4 content-start">
+      <p class="eyebrow">Testimonials</p>
+      <h2 class="text-[clamp(1.9rem,4vw,3rem)] font-[var(--head)] font-semibold leading-[1.12] tracking-[-0.02em]">
+        Hear from the participants
+      </h2>
+      <p class="lede text-[1.12rem] text-[var(--muted)] max-w-[60ch] leading-relaxed">
+        Founders and professionals who joined us in September 2026 share what changed for them.{' '}
+        <a href="https://www.youtube.com/playlist?list=PLHE5syv2VWeo" target="_blank" rel="noopener" class="text-[var(--red)] font-semibold hover:underline">
+          Watch the full playlist
+        </a>
+      </p>
+    </div>
+
+    <div class="vids grid grid-cols-1 sm:grid-cols-2 min-[861px]:grid-cols-3 gap-5">
+      {videos.map((vid) => (
+        <a
+          class="vid no-underline relative aspect-[16/9] rounded-lg overflow-hidden bg-[var(--dark)] text-white flex items-end p-4 border-0 cursor-pointer text-left font-inherit w-full group"
+          href={vid.url}
+          target="_blank"
+          rel="noopener"
+        >
+          <img
+            src={vid.image}
+            alt=""
+            class="absolute inset-0 w-full h-full object-cover transition-transform duration-400 group-hover:scale-105"
+          />
+          <i class="play absolute z-10 top-3.5 right-3.5 w-11 h-11 rounded-full bg-[var(--red)] grid place-items-center" aria-hidden="true" />
+          <span class="relative z-10 font-[var(--head)] font-semibold text-[1rem] leading-[1.25]">
+            <small class="block font-[var(--body)] font-medium text-[0.72rem] leading-[1.4] opacity-85 uppercase tracking-[0.08em]">
+              {vid.duration}
+            </small>
+            {vid.name}
+          </span>
+        </a>
+      ))}
+    </div>
+
+    <div class="quotes grid grid-cols-1 min-[861px]:grid-cols-3 gap-5 mt-10">
+      {quotes.map((item) => (
+        <figure class="q m-0 bg-[var(--surface)] border border-[var(--line)] rounded-lg p-6.5 flex flex-col gap-4 justify-between">
+          <p class="text-[1.04rem] leading-relaxed relative">
+            {item.quote}
+          </p>
+          <cite class="not-italic text-[0.8rem] text-[var(--muted)]">{item.author}</cite>
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>

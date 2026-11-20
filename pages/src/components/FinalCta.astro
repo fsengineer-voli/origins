@@ -1,0 +1,28 @@
+---
+interface Props {
+  dates?: string;
+  headline?: string;
+}
+
+const {
+  dates = 'March 19–20, 2027 · Lagos · In-person & online',
+  headline = 'Every great business has an origin. Start yours.',
+} = Astro.props;
+---
+
+<section class="final bg-[var(--red)] text-white py-16 md:py-24">
+  <div class="wrap grid gap-7">
+    <p class="eyebrow text-white/85">{dates}</p>
+    <h2 class="text-[clamp(2.2rem,5.6vw,4.2rem)] font-[var(--head)] font-semibold leading-[1.12] tracking-[-0.02em] max-w-[16ch] m-0">
+      {headline}
+    </h2>
+    <div class="row flex flex-wrap gap-3">
+      <a class="btn btn-light bg-white text-[var(--ink)] hover:bg-[#F2EFE9]" href="#tickets">
+        Register now
+      </a>
+      <a class="btn btn-ghost border-current text-white hover:bg-white/10" href="#topics">
+        What we'll cover
+      </a>
+    </div>
+  </div>
+</section>
