@@ -343,6 +343,52 @@ legend {
   color: var(--ink);
   width: 100%;
   min-width: 0;
+  transition: border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* Live validation styles */
+.field input.invalid,
+.field select.invalid {
+  border-color: var(--red) !important;
+  background-color: #FFF8F8;
+}
+
+.field input.invalid:focus,
+.field select.invalid:focus {
+  outline: 3px solid var(--red) !important;
+  outline-offset: 2px;
+}
+
+.field-err {
+  color: var(--red);
+  font-size: 0.8rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 3px;
+  line-height: 1.35;
+  animation: fadeInErr 0.15s ease-in;
+}
+
+@keyframes fadeInErr {
+  from { opacity: 0; transform: translateY(-3px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.field-err[hidden] {
+  display: none !important;
+}
+
+.field-err::before {
+  content: "";
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23C8161D'%3E%3Cpath fill-rule='evenodd' d='M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm-.75-9.75a.75.75 0 0 1 1.5 0v4a.75.75 0 0 1-1.5 0v-4zm.75 6.75a.875.875 0 1 1 0-1.75.875.875 0 0 1 0 1.75z' clip-rule='evenodd'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
 .phone {

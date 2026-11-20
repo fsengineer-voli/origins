@@ -41,7 +41,17 @@
   // ---- Attendee form ------------------------------------------------------
   function saveAttendees(){
     document.querySelectorAll('#attendees fieldset').forEach(function(fs,i){
-      fs.querySelectorAll('input,select').forEach(function(el){if(!el.name)return;if(el.type==='radio'){if(el.checked)attendeeData[i].attend=el.value;}else attendeeData[i][el.name]=el.value;});
+      if(!attendeeData[i]) attendeeData[i] = {};
+      fs.querySelectorAll('input,select').forEach(function(el){
+        if(!el.name)return;
+        if(el.type==='radio'){
+          if(el.checked)attendeeData[i].attend=el.value;
+        }else attendeeData[i][el.name]=el.value;
+        if(el.dataset.touched === '1'){
+          if(!attendeeData[i].touched) attendeeData[i].touched = {};
+          attendeeData[i].touched[el.name] = true;
+        }
+      });
       var cc=fs.querySelector('[data-cc]');if(cc&&cc.dataset.touched)attendeeData[i].ccTouched=true;
     });
   }
@@ -84,7 +94,7 @@
   }
 
   function attendeeBlock(i,fmtVal,isBundle){
-    var d=attendeeData[i], n=i+1, p='a'+n+'-';
+    var d=attendeeData[i]||{}, n=i+1, p='a'+n+'-';
     function val(k,def){return d[k]!==undefined?d[k]:(def||'');}
     function opt(list,sel){return list.map(function(o){return '<option'+(o===sel?' selected':'')+'>'+o+'</option>';}).join('');}
     var occ=val('occupation');
@@ -93,17 +103,17 @@
       '<div class="field full" role="radiogroup" aria-label="How will you attend?"><span class="lbl">How will you attend? <span class="req" aria-hidden="true">*</span></span><div class="attend">'+
         '<label><input type="radio" name="'+p+'attend" id="'+p+'ip" value="inperson"'+(fmtVal==='inperson'?' checked':'')+'>In-person</label>'+
         '<label><input type="radio" name="'+p+'attend" id="'+p+'on" value="online"'+(fmtVal==='online'?' checked':'')+'>Online</label></div></div>'+
-      '<label class="field"><span class="lbl">First name <span class="req" aria-hidden="true">*</span></span><input id="'+p+'first" name="first" autocomplete="'+(i?'off':'given-name')+'" placeholder="Jane" value="'+esc(val('first'))+'"></label>'+
-      '<label class="field"><span class="lbl">Last name <span class="req" aria-hidden="true">*</span></span><input id="'+p+'last" name="last" autocomplete="'+(i?'off':'family-name')+'" placeholder="Smith" value="'+esc(val('last'))+'"></label>'+
-      '<label class="field"><span class="lbl">Email <span class="req" aria-hidden="true">*</span></span><input id="'+p+'email" name="email" type="email" autocomplete="'+(i?'off':'email')+'" placeholder="jane@example.com" value="'+esc(val('email'))+'"></label>'+
-      '<div class="field"><span class="lbl">Phone number <span class="req" aria-hidden="true">*</span></span><div class="phone">'+ccPicker(p,val('cc','NG'))+'<input id="'+p+'phone" name="phone" type="tel" aria-label="Phone number" placeholder="801 234 5678" value="'+esc(val('phone'))+'"></div></div>'+
-      '<label class="field"><span class="lbl">Gender <span class="req" aria-hidden="true">*</span></span><select id="'+p+'gender" name="gender"><option value="">Select gender</option>'+opt(['Male','Female','Prefer not to say'],val('gender'))+'</select></label>'+
-      '<label class="field"><span class="lbl">Occupation <span class="req" aria-hidden="true">*</span></span><select id="'+p+'occupation" name="occupation" data-occ><option value="">Select current status</option>'+opt(['Employed','Self-employed','Entrepreneur','Student','Other'],occ)+'</select></label>'+
-      '<label class="field full" data-level'+(occ==='Employed'?'':' hidden')+'><span class="lbl">Employment level <span class="req" aria-hidden="true">*</span></span><select id="'+p+'level" name="level"><option value="">Select your level</option>'+opt(['Founder / Co-founder','Executive / C-suite','Manager','Associate','Other'],val('level'))+'</select></label>'+
+      '<label class="field"><span class="lbl">First name <span class="req" aria-hidden="true">*</span></span><input id="'+p+'first" name="first" autocomplete="'+(i?'off':'given-name')+'" placeholder="Jane" value="'+esc(val('first'))+'"><span class="field-err" role="alert" hidden></span></label>'+
+      '<label class="field"><span class="lbl">Last name <span class="req" aria-hidden="true">*</span></span><input id="'+p+'last" name="last" autocomplete="'+(i?'off':'family-name')+'" placeholder="Smith" value="'+esc(val('last'))+'"><span class="field-err" role="alert" hidden></span></label>'+
+      '<label class="field"><span class="lbl">Email <span class="req" aria-hidden="true">*</span></span><input id="'+p+'email" name="email" type="email" autocomplete="'+(i?'off':'email')+'" placeholder="jane@example.com" value="'+esc(val('email'))+'"><span class="field-err" role="alert" hidden></span></label>'+
+      '<div class="field"><span class="lbl">Phone number <span class="req" aria-hidden="true">*</span></span><div class="phone">'+ccPicker(p,val('cc','NG'))+'<input id="'+p+'phone" name="phone" type="tel" aria-label="Phone number" placeholder="801 234 5678" value="'+esc(val('phone'))+'"></div><span class="field-err" role="alert" hidden></span></div>'+
+      '<label class="field"><span class="lbl">Gender <span class="req" aria-hidden="true">*</span></span><select id="'+p+'gender" name="gender"><option value="">Select gender</option>'+opt(['Male','Female','Prefer not to say'],val('gender'))+'</select><span class="field-err" role="alert" hidden></span></label>'+
+      '<label class="field"><span class="lbl">Occupation <span class="req" aria-hidden="true">*</span></span><select id="'+p+'occupation" name="occupation" data-occ><option value="">Select current status</option>'+opt(['Employed','Self-employed','Entrepreneur','Student','Other'],occ)+'</select><span class="field-err" role="alert" hidden></span></label>'+
+      '<label class="field full" data-level'+(occ==='Employed'?'':' hidden')+'><span class="lbl">Employment level <span class="req" aria-hidden="true">*</span></span><select id="'+p+'level" name="level"><option value="">Select your level</option>'+opt(['Founder / Co-founder','Executive / C-suite','Manager','Associate','Other'],val('level'))+'</select><span class="field-err" role="alert" hidden></span></label>'+
       '<label class="field">Company name<input id="'+p+'company" name="company" autocomplete="'+(i?'off':'organization')+'" placeholder="Acme Ltd" value="'+esc(val('company'))+'"></label>'+
       '<label class="field">Role<input id="'+p+'role" name="role" autocomplete="'+(i?'off':'organization-title')+'" placeholder="Founder, Product Manager…" value="'+esc(val('role'))+'"></label>'+
-      '<label class="field"><span class="lbl">City <span class="req" aria-hidden="true">*</span></span><input id="'+p+'city" name="city" placeholder="Lagos" value="'+esc(val('city'))+'"></label>'+
-      '<label class="field"><span class="lbl">Country <span class="req" aria-hidden="true">*</span></span><select id="'+p+'country" name="country" data-country>'+countryOptions(val('country','NG'))+'</select></label>'+
+      '<label class="field"><span class="lbl">City <span class="req" aria-hidden="true">*</span></span><input id="'+p+'city" name="city" placeholder="Lagos" value="'+esc(val('city'))+'"><span class="field-err" role="alert" hidden></span></label>'+
+      '<label class="field"><span class="lbl">Country <span class="req" aria-hidden="true">*</span></span><select id="'+p+'country" name="country" data-country>'+countryOptions(val('country','NG'))+'</select><span class="field-err" role="alert" hidden></span></label>'+
       '</div></fieldset>';
   }
 
@@ -112,16 +122,36 @@
     var isBundle=state.ticket==='bundle', box=document.getElementById('attendees');
     box.innerHTML=state.formats.map(function(f,i){return attendeeBlock(i,f,isBundle);}).join('');
     box.style.display='grid';box.style.gap='28px';
-    box.querySelectorAll('[data-cc]').forEach(function(el,i){if(attendeeData[i].ccTouched)el.dataset.touched='1';initCC(el);});
+    box.querySelectorAll('[data-cc]').forEach(function(el,i){if(attendeeData[i]&&attendeeData[i].ccTouched)el.dataset.touched='1';initCC(el);});
     box.querySelectorAll('[data-country]').forEach(function(s){s.addEventListener('change',function(){
       var cc=s.closest('fieldset').querySelector('[data-cc]');if(!cc.dataset.touched)setCC(cc,s.value);});});
-    box.querySelectorAll('[data-occ]').forEach(function(s){s.addEventListener('change',function(){s.closest('.fields').querySelector('[data-level]').hidden=s.value!=='Employed';});});
+    box.querySelectorAll('[data-occ]').forEach(function(s){s.addEventListener('change',function(){
+      var levelField=s.closest('.fields').querySelector('[data-level]');
+      var isEmp=s.value==='Employed';
+      levelField.hidden=!isEmp;
+      var levelSelect=levelField.querySelector('select');
+      if(!isEmp&&levelSelect){
+        clearFieldError(levelSelect);
+        levelSelect.value='';
+      }
+    });});
     box.querySelectorAll('input[type=radio]').forEach(function(r){r.addEventListener('change',function(){
       var i=+r.name.charAt(1)-1; state.formats[i]=r.value==='online'?'online':'inperson';
       if(isBundle){var key=state.formats.slice().sort().join(',');var map={'inperson,inperson':'combo-ii','online,online':'combo-oo','inperson,online':'combo-io'};document.getElementById(map[key]).checked=true;}
       else state.ticket=r.value;
-      renderPrices();renderSummary();validate();});});
-    validate();
+      renderPrices();renderSummary();validate(false);});});
+
+    // Restore touched status for previously touched fields
+    box.querySelectorAll('input:not([type=radio]):not([type=hidden]), select').forEach(function(el){
+      var fs=el.closest('fieldset');
+      var idx=Array.prototype.indexOf.call(box.children, fs);
+      if(idx>-1 && attendeeData[idx] && attendeeData[idx].touched && attendeeData[idx].touched[el.name]){
+        el.dataset.touched='1';
+        validateField(el, true);
+      }
+    });
+
+    validate(false);
   }
 
   function renderSummary(){
@@ -141,34 +171,146 @@
     renderPrices();renderForm();renderSummary();
   }
 
-  // ---- Required-field gating ---------------------------------------------
-  function filled(el){return !!(el && el.value && el.value.trim()!=='');}
+  // ---- Live Validation Engine ---------------------------------------------
+  function getOrCreateErrorEl(inputEl){
+    var field=inputEl.closest('.field');
+    if(!field) return null;
+    var errEl=field.querySelector('.field-err');
+    if(!errEl){
+      errEl=document.createElement('span');
+      errEl.className='field-err';
+      errEl.setAttribute('role','alert');
+      errEl.hidden=true;
+      field.appendChild(errEl);
+    }
+    return errEl;
+  }
 
-  // Returns true only when every compulsory field is complete and valid.
-  // Drives the Continue button's disabled state.
-  function validate(){
+  function setFieldError(inputEl, msg){
+    inputEl.classList.add('invalid');
+    inputEl.setAttribute('aria-invalid','true');
+    var err=getOrCreateErrorEl(inputEl);
+    if(err){
+      err.textContent=msg;
+      err.hidden=false;
+    }
+  }
+
+  function clearFieldError(inputEl){
+    inputEl.classList.remove('invalid');
+    inputEl.removeAttribute('aria-invalid');
+    var field=inputEl.closest('.field');
+    if(field){
+      var err=field.querySelector('.field-err');
+      if(err){
+        err.textContent='';
+        err.hidden=true;
+      }
+    }
+  }
+
+  function validateField(inputEl, forceShow){
+    if(!inputEl || !inputEl.name) return true;
+    var name=inputEl.name;
+    var val=(inputEl.value||'').trim();
+    var fs=inputEl.closest('fieldset');
+    var isTouched=forceShow || inputEl.dataset.touched === '1';
+    var err='';
+
+    if(name === 'first'){
+      if(!val) err='First name is required.';
+    } else if(name === 'last'){
+      if(!val) err='Last name is required.';
+    } else if(name === 'email'){
+      if(!val){
+        err='Email address is required.';
+      } else if(!EMAIL_RE.test(val)){
+        err='Please enter a valid email address (e.g. name@example.com).';
+      }
+    } else if(name === 'phone'){
+      var digits=val.replace(/\D/g,'');
+      if(!val){
+        err='Phone number is required.';
+      } else if(digits.length < 6){
+        err='Please enter a valid phone number (at least 6 digits).';
+      }
+    } else if(name === 'gender'){
+      if(!val) err='Please select your gender.';
+    } else if(name === 'occupation'){
+      if(!val) err='Please select your current status.';
+    } else if(name === 'level'){
+      var occEl=fs?fs.querySelector('[name="occupation"]'):null;
+      if(occEl && occEl.value==='Employed' && !val){
+        err='Please select your employment level.';
+      }
+    } else if(name === 'city'){
+      if(!val) err='City is required.';
+    } else if(name === 'country'){
+      if(!val) err='Please select your country.';
+    } else if(name === 'source'){
+      if(!val) err='Please let us know how you heard about us.';
+    }
+
+    if(err){
+      if(isTouched) setFieldError(inputEl, err);
+      return false;
+    } else {
+      clearFieldError(inputEl);
+      return true;
+    }
+  }
+
+  var emailDebounceTimers={};
+  function handleEmailInput(inputEl){
+    var id=inputEl.id || inputEl.name;
+    if(emailDebounceTimers[id]) clearTimeout(emailDebounceTimers[id]);
+    var val=(inputEl.value||'').trim();
+    if(inputEl.dataset.touched === '1'){
+      validateField(inputEl, true);
+    } else if(val.indexOf('@') > -1 && val.length > 5){
+      emailDebounceTimers[id]=setTimeout(function(){
+        inputEl.dataset.touched='1';
+        validateField(inputEl, true);
+      }, 500);
+    }
+  }
+
+  function validate(forceShow){
     var ok=true;
     var sets=document.querySelectorAll('#attendees fieldset');
     if(!sets.length) ok=false;
-    sets.forEach(function(fs){
-      if(!fs.querySelector('input[type=radio]:checked')) ok=false;
-      ['first','last','city','gender','occupation','country'].forEach(function(n){
-        if(!filled(fs.querySelector('[name="'+n+'"]'))) ok=false;
-      });
-      var email=fs.querySelector('[name="email"]');
-      if(!filled(email)||!EMAIL_RE.test(email.value.trim())) ok=false;
-      var phone=fs.querySelector('[name="phone"]');
-      if(!phone||phone.value.replace(/\D/g,'').length<6) ok=false;
-      var occ=fs.querySelector('[name="occupation"]');
-      if(occ&&occ.value==='Employed'&&!filled(fs.querySelector('[name="level"]'))) ok=false;
-    });
-    if(!filled(document.getElementById('f-source'))) ok=false;
 
-    var btn=document.getElementById('pay-btn');
-    btn.disabled=!ok;
-    document.getElementById('hint').textContent=ok
-      ? 'Ready. We’ll show your bank transfer details next.'
-      : 'Complete all required fields to continue.';
+    sets.forEach(function(fs){
+      var r=fs.querySelector('input[type=radio]:checked');
+      if(!r) ok=false;
+
+      var occEl=fs.querySelector('[name="occupation"]');
+      var isEmp=occEl && occEl.value==='Employed';
+
+      var fieldsToValidate=['first','last','email','phone','gender','occupation','city','country'];
+      if(isEmp) fieldsToValidate.push('level');
+
+      fieldsToValidate.forEach(function(n){
+        var el=fs.querySelector('[name="'+n+'"]');
+        if(el){
+          var valid=validateField(el, forceShow);
+          if(!valid) ok=false;
+        }
+      });
+    });
+
+    var sourceEl=document.getElementById('f-source');
+    if(sourceEl){
+      var sourceValid=validateField(sourceEl, forceShow);
+      if(!sourceValid) ok=false;
+    }
+
+    var hint=document.getElementById('hint');
+    if(hint){
+      hint.textContent=ok
+        ? 'Ready. We’ll show your bank transfer details next.'
+        : 'Complete all required fields to continue.';
+    }
     return ok;
   }
 
@@ -270,10 +412,49 @@
   document.querySelectorAll('[data-select]').forEach(function(b){b.addEventListener('click',function(){select(b.dataset.select);document.getElementById('register').scrollIntoView({behavior:reduce?'auto':'smooth'});});});
 
   var form=document.getElementById('reg-form');
-  ['input','change'].forEach(function(ev){form.addEventListener(ev,validate);});
-  form.addEventListener('submit',function(e){
+
+  // Blur on any input or select marks it touched and triggers immediate validation
+  form.addEventListener('blur', function(e){
+    var el=e.target;
+    if(el && (el.tagName === 'INPUT' || el.tagName === 'SELECT') && el.name){
+      el.dataset.touched='1';
+      validateField(el, true);
+      validate(false);
+    }
+  }, true);
+
+  // Live input validation: clears error immediately when corrected, or detects format
+  form.addEventListener('input', function(e){
+    var el=e.target;
+    if(el && el.name === 'email'){
+      handleEmailInput(el);
+    } else if(el && el.dataset.touched === '1'){
+      validateField(el, true);
+    }
+    validate(false);
+  });
+
+  // Change events (selects and radios)
+  form.addEventListener('change', function(e){
+    var el=e.target;
+    if(el && (el.tagName === 'SELECT' || el.type === 'radio')){
+      el.dataset.touched='1';
+      validateField(el, true);
+    }
+    validate(false);
+  });
+
+  form.addEventListener('submit', function(e){
     e.preventDefault();
-    if(!validate()) return;
+    var ok=validate(true);
+    if(!ok){
+      var firstInvalid=form.querySelector('.invalid, [aria-invalid="true"]');
+      if(firstInvalid){
+        firstInvalid.focus();
+        firstInvalid.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+      }
+      return;
+    }
     submitRegistration();
   });
 

@@ -27,22 +27,22 @@ const {
 
 <section id="register" class="py-16 md:py-24">
   <div class="wrap">
-    <div class="sec-head mb-12 max-w-[760px] grid gap-4 content-start">
+    <div class="sec-head mb-12 max-w-190 grid gap-4 content-start">
       <p class="eyebrow">Register for Origins</p>
-      <h2 class="text-[clamp(1.9rem,4vw,3rem)] font-[var(--head)] font-semibold leading-[1.12] tracking-[-0.02em]">
+      <h2 class="text-[clamp(1.9rem,4vw,3rem)] font-semibold leading-[1.12] tracking-[-0.02em]">
         Your information
       </h2>
-      <p class="lede text-[1.12rem] text-[var(--muted)] max-w-[60ch] leading-relaxed">
+      <p class="lede text-[1.12rem] text-(--muted) max-w-[60ch] leading-relaxed">
         {cohortSubtitle}
       </p>
     </div>
 
-    <div class="success bg-[var(--surface)] border border-[var(--line)] rounded-[10px] p-8 grid gap-[18px] text-[var(--ink)]" id="success" hidden></div>
+    <div class="success bg-(--surface) border border-(--line) rounded-[10px] p-8 grid gap-4.5 text-(--ink)" id="success" hidden></div>
 
     <div class="reg-grid grid grid-cols-1 min-[901px]:grid-cols-[1fr_340px] gap-10 items-start">
       <form class="reg-form grid gap-7" id="reg-form" novalidate>
         <div id="attendees"></div>
-        <fieldset class="border border-[var(--line)] rounded-[10px] p-6 m-0 bg-[var(--surface)] min-w-0">
+        <fieldset class="border border-(--line) rounded-[10px] p-6 m-0 bg-(--surface) min-w-0">
           <legend class="font-[var(--head)] font-semibold text-[1rem] px-2">One last thing</legend>
           <div class="fields grid grid-cols-1 sm:grid-cols-2 gap-4">
             <label class="field full grid gap-[6px] text-[0.85rem] font-semibold min-w-0 col-span-full">
@@ -59,6 +59,7 @@ const {
                   <option value={opt}>{opt}</option>
                 ))}
               </select>
+              <span class="field-err" role="alert" hidden></span>
             </label>
           </div>
         </fieldset>
