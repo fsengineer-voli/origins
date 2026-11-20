@@ -5,10 +5,10 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview"
+    "build": "astro build"
   },
   "dependencies": {
+    "@astrojs/cloudflare": "12",
     "astro": "^5.16.0"
   },
   "devDependencies": {

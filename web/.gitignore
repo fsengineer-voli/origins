@@ -1,0 +1,11 @@
+dist/
+.astro/
+node_modules/
+.env
+.env.production
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+!.env.example
